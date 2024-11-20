@@ -5,7 +5,7 @@ import 'package:myapp/faculty/contact_us.dart';
 import '../components.dart';
 
 class FacultyDashBoard extends StatefulWidget {
-  const FacultyDashBoard({Key? key}) : super(key: key);
+  const FacultyDashBoard({super.key});
 
   @override
   State<FacultyDashBoard> createState() => _FacultyDashBoardState();

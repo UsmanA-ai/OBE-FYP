@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components.dart';
 
 class CSplos extends StatefulWidget {
-  const CSplos({Key? key}) : super(key: key);
+  const CSplos({super.key});
   @override
   _CSplosState createState() => _CSplosState();
 }

@@ -7,8 +7,7 @@ import '../../se_plo.dart';
 
 class FacultySEMobileAttendanceFolder extends StatelessWidget {
   final String program;
-  const FacultySEMobileAttendanceFolder({Key? key, required this.program})
-      : super(key: key);
+  const FacultySEMobileAttendanceFolder({super.key, required this.program});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class FacultySEMobileAttendanceFolder extends StatelessWidget {
 
 class FacultyCourseData extends StatefulWidget {
   final String program;
-  const FacultyCourseData({Key? key, required this.program}) : super(key: key);
+  const FacultyCourseData({super.key, required this.program});
 
   @override
   _FacultyCourseDataState createState() => _FacultyCourseDataState();

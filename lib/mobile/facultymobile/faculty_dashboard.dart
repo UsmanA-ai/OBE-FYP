@@ -15,7 +15,7 @@ import 'courses/BS(CS)/cs_course_folder.dart';
 import 'courses/BS(SE)/se_course_folder.dart';
 
 class FacultyMobileDashBoard extends StatefulWidget {
-  const FacultyMobileDashBoard({Key? key}) : super(key: key);
+  const FacultyMobileDashBoard({super.key});
 
   @override
   State<FacultyMobileDashBoard> createState() => _FacultyMobileDashBoardState();

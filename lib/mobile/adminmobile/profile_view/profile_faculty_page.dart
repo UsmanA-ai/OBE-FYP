@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/mobile/adminmobile/update_profile/faculty_page.dart';
 
 class AdminProfileFMobilePage extends StatefulWidget {
-  const AdminProfileFMobilePage({Key? key}) : super(key: key);
+  const AdminProfileFMobilePage({super.key});
   @override
   State<AdminProfileFMobilePage> createState() =>
       _AdminProfileFMobilePageState();

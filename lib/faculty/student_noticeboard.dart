@@ -3,7 +3,7 @@ import 'package:myapp/admin/admin_dashboard.dart';
 import '../components.dart';
 
 class FacultyStudentNoticeBoard extends StatefulWidget {
-  const FacultyStudentNoticeBoard({Key? key}) : super(key: key);
+  const FacultyStudentNoticeBoard({super.key});
   @override
   State<FacultyStudentNoticeBoard> createState() =>
       _FacultyStudentNoticeBoardState();

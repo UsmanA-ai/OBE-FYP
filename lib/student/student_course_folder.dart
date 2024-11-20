@@ -5,8 +5,7 @@ import 'package:myapp/components.dart';
 
 class StudentCourseFolder extends StatefulWidget {
   final String courseName;
-  const StudentCourseFolder({Key? key, required this.courseName})
-      : super(key: key);
+  const StudentCourseFolder({super.key, required this.courseName});
 
   @override
   _StudentCourseFolderState createState() => _StudentCourseFolderState();

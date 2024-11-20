@@ -7,8 +7,7 @@ import 'cs_mark_attendance.dart';
 
 class FacultyMobileCSAttendanceFolder extends StatelessWidget {
   final String program;
-  const FacultyMobileCSAttendanceFolder({Key? key, required this.program})
-      : super(key: key);
+  const FacultyMobileCSAttendanceFolder({super.key, required this.program});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class FacultyMobileCSAttendanceFolder extends StatelessWidget {
 
 class FacultyCourseData extends StatefulWidget {
   final String program;
-  const FacultyCourseData({Key? key, required this.program}) : super(key: key);
+  const FacultyCourseData({super.key, required this.program});
 
   @override
   _FacultyCourseDataState createState() => _FacultyCourseDataState();

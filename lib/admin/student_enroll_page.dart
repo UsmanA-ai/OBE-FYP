@@ -9,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../components.dart';
 
 class AdminSEnrollPage extends StatefulWidget {
-  const AdminSEnrollPage({Key? key}): super(key:key);
+  const AdminSEnrollPage({super.key});
   @override
   State<AdminSEnrollPage> createState() => _AdminSEnrollPageState();
 }

@@ -4,7 +4,7 @@ import 'package:myapp/student/student_dashboard.dart';
 import 'package:myapp/student/student_login_page.dart';
 
 class StudentSignupPage extends StatefulWidget {
-  const StudentSignupPage({Key? key}) : super(key: key);
+  const StudentSignupPage({super.key});
   @override
   State<StudentSignupPage> createState() => _StudentSignupPageState();
 }

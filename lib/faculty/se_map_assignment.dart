@@ -4,8 +4,7 @@ import '../components.dart';
 
 class SEMapObeAssignment extends StatefulWidget {
   final String courseName;
-  const SEMapObeAssignment({Key? key, required this.courseName})
-      : super(key: key);
+  const SEMapObeAssignment({super.key, required this.courseName});
 
   @override
   _SEMapObeAssignmentState createState() => _SEMapObeAssignmentState();

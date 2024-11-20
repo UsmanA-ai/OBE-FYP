@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'admin_dashboard.dart';
 
 class MobileAdminLoginPage extends StatefulWidget {
-  const MobileAdminLoginPage({Key? key}) : super(key: key);
+  const MobileAdminLoginPage({super.key});
   @override
   State<MobileAdminLoginPage> createState() => _MobileAdminLoginPageState();
 }

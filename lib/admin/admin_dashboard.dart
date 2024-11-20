@@ -4,7 +4,7 @@ import 'package:myapp/admin/view_complains.dart';
 import '../components.dart';
 
 class AdminDashBoard extends StatefulWidget {
-  const AdminDashBoard({Key? key}) : super(key: key);
+  const AdminDashBoard({super.key});
 
   @override
   State<AdminDashBoard> createState() => _AdminDashBoardState();

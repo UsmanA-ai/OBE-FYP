@@ -9,7 +9,7 @@ import 'package:myapp/components.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminFEnrollPage extends StatefulWidget {
-  const AdminFEnrollPage({Key? key}) : super(key: key);
+  const AdminFEnrollPage({super.key});
   @override
   State<AdminFEnrollPage> createState() => _AdminFEnrollPageState();
 }

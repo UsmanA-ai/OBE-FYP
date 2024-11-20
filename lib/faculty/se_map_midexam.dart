@@ -4,7 +4,7 @@ import '../components.dart';
 
 class SEMapMidExam extends StatefulWidget {
   final String courseName;
-  const SEMapMidExam({Key? key, required this.courseName}) : super(key: key);
+  const SEMapMidExam({super.key, required this.courseName});
 
   @override
   _SEMapMidExamState createState() => _SEMapMidExamState();

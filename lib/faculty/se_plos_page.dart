@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components.dart';
 
 class SEplos extends StatefulWidget {
-  const SEplos({Key? key}) : super(key: key);
+  const SEplos({super.key});
   @override
   _SEplosState createState() => _SEplosState();
 }

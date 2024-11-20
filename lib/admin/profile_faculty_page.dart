@@ -4,7 +4,7 @@ import 'package:myapp/components.dart';
 
 import 'faculty_update_profile.dart';
 class AdminProfileFPage extends StatefulWidget {
-  const AdminProfileFPage({Key? key}) : super(key: key);
+  const AdminProfileFPage({super.key});
   @override
   State<AdminProfileFPage> createState() => _AdminProfileFPageState();
 }

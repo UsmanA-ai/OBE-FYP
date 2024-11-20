@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 class StudentMobileportfoliofolder extends StatelessWidget {
-  const StudentMobileportfoliofolder({Key? key}) : super(key: key);
+  const StudentMobileportfoliofolder({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

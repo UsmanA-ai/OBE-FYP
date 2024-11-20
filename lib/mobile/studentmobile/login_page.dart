@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/mobile/studentmobile/student_dashboard.dart';
 
 class MobileStudentLoginPage extends StatefulWidget {
-  const MobileStudentLoginPage({Key? key}) : super(key: key);
+  const MobileStudentLoginPage({super.key});
 
   @override
   State<MobileStudentLoginPage> createState() => _MobileStudentLoginPageState();

@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SEMapMobileObeAssignment extends StatefulWidget {
   final String courseName;
-  const SEMapMobileObeAssignment({Key? key, required this.courseName})
-      : super(key: key);
+  const SEMapMobileObeAssignment({super.key, required this.courseName});
 
   @override
   _SEMapMobileObeAssignmentState createState() =>

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StudentMobilePortfolioPage extends StatefulWidget {
-  const StudentMobilePortfolioPage({Key? key}) : super(key: key);
+  const StudentMobilePortfolioPage({super.key});
 
   @override
   State<StudentMobilePortfolioPage> createState() =>

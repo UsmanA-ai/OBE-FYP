@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SEMapMobileObeQuiz extends StatefulWidget {
   final String courseName;
-  const SEMapMobileObeQuiz({Key? key, required this.courseName})
-      : super(key: key);
+  const SEMapMobileObeQuiz({super.key, required this.courseName});
 
   @override
   _SEMapMobileObeQuizState createState() => _SEMapMobileObeQuizState();

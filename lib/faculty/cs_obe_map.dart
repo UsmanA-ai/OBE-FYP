@@ -5,7 +5,7 @@ import '../components.dart';
 
 class MapCSObe extends StatefulWidget {
   final String courseName;
-  const MapCSObe({Key? key, required this.courseName}) : super(key: key);
+  const MapCSObe({super.key, required this.courseName});
 
   @override
   _MapCSObeState createState() => _MapCSObeState();

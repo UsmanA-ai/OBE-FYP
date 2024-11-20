@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CSMobileplos extends StatefulWidget {
-  const CSMobileplos({Key? key}) : super(key: key);
+  const CSMobileplos({super.key});
   @override
   _CSMobileplosState createState() => _CSMobileplosState();
 }

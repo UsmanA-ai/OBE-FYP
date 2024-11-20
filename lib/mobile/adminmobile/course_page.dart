@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CourseMobilePage extends StatefulWidget {
-  const CourseMobilePage({Key? key}) : super(key: key);
+  const CourseMobilePage({super.key});
 
   @override
   State<CourseMobilePage> createState() => _CourseMobilePageState();

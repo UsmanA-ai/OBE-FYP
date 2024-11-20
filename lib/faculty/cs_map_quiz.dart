@@ -4,7 +4,7 @@ import '../components.dart';
 
 class CSMapObeQuiz extends StatefulWidget {
   final String courseName;
-  const CSMapObeQuiz({Key? key, required this.courseName}) : super(key: key);
+  const CSMapObeQuiz({super.key, required this.courseName});
 
   @override
   _CSMapObeQuizState createState() => _CSMapObeQuizState();

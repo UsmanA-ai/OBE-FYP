@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/components.dart';
 
 class HelpAndReport extends StatefulWidget {
-  const HelpAndReport({Key? key}) : super(key: key);
+  const HelpAndReport({super.key});
   @override
   State<HelpAndReport> createState() => _HelpAndReport();
 }

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/components.dart';
 class FacultyContactus extends StatefulWidget {
-  const FacultyContactus({Key? key}): super(key:key);
+  const FacultyContactus({super.key});
   @override
   State<FacultyContactus> createState() => _FacultyContactusState();
 }

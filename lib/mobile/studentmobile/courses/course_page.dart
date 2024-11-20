@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'course_folder.dart';
 class StudentMobileCoursePage extends StatelessWidget {
-  const StudentMobileCoursePage({Key? key}) : super(key: key);
+  const StudentMobileCoursePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class StudentMobileCoursePage extends StatelessWidget {
 }
 
 class StudentCourseData extends StatefulWidget {
-  const StudentCourseData({Key? key}) : super(key: key);
+  const StudentCourseData({super.key});
 
   @override
   _StudentCourseDataState createState() => _StudentCourseDataState();

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../update_profile/admin_page.dart';
 class AdminProfileMobilePage extends StatefulWidget {
-  const AdminProfileMobilePage({Key? key}) : super(key: key);
+  const AdminProfileMobilePage({super.key});
   @override
   State<AdminProfileMobilePage> createState() => _AdminProfileMobilePageState();
 }

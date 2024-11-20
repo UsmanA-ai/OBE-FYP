@@ -9,7 +9,7 @@ import '../components.dart';
 class Uploadfolder extends StatefulWidget {
   final String courseName;
 
-  const Uploadfolder({Key? key, required this.courseName}) : super(key: key);
+  const Uploadfolder({super.key, required this.courseName});
 
   @override
   _UploadfolderState createState() => _UploadfolderState();

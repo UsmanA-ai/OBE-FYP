@@ -7,8 +7,7 @@ import 'cs_map_quiz.dart';
 
 class FacultyCSQuizFolder extends StatelessWidget {
   final String program;
-  const FacultyCSQuizFolder({Key? key, required this.program})
-      : super(key: key);
+  const FacultyCSQuizFolder({super.key, required this.program});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,7 +163,7 @@ class FacultyCSQuizFolder extends StatelessWidget {
 
 class FacultyCourseData extends StatefulWidget {
   final String program;
-  const FacultyCourseData({Key? key, required this.program}) : super(key: key);
+  const FacultyCourseData({super.key, required this.program});
 
   @override
   _FacultyCourseDataState createState() => _FacultyCourseDataState();

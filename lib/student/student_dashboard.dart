@@ -953,7 +953,7 @@ class _StudentDashBoardState extends State<StudentDashBoard> {
                                                       ),
                                                     ),
                                                   );
-                                                }).toList(),
+                                                }),
                                                 const SizedBox(
                                                   height: 15,
                                                 ),

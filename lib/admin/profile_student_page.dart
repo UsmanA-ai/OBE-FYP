@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/admin/student_update_profile.dart';
 import 'package:myapp/components.dart';
 class AdminProfileSPage extends StatefulWidget {
-  const AdminProfileSPage({Key? key}) : super(key: key);
+  const AdminProfileSPage({super.key});
   @override
   State<AdminProfileSPage> createState() => _AdminProfileSPageState();
 }

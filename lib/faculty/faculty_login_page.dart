@@ -5,7 +5,7 @@ import 'package:myapp/faculty/faculty_signup_page.dart';
 import 'faculty_dashboard.dart';
 
 class FacultyLoginPage extends StatefulWidget {
-  const FacultyLoginPage({Key? key}) : super(key: key);
+  const FacultyLoginPage({super.key});
 
   @override
   State<FacultyLoginPage> createState() => _FacultyLoginPageState();

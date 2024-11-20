@@ -7,8 +7,7 @@ import 'map_obe.dart';
 
 class FacultyMobileCourseFolder extends StatelessWidget {
   final String program;
-  const FacultyMobileCourseFolder({Key? key, required this.program})
-      : super(key: key);
+  const FacultyMobileCourseFolder({super.key, required this.program});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class FacultyMobileCourseFolder extends StatelessWidget {
 
 class FacultyCourseData extends StatefulWidget {
   final String program;
-  const FacultyCourseData({Key? key, required this.program}) : super(key: key);
+  const FacultyCourseData({super.key, required this.program});
 
   @override
   _FacultyCourseDataState createState() => _FacultyCourseDataState();

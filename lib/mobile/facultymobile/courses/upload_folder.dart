@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 class UploadMobilefolder extends StatefulWidget {
   final String courseName;
 
-  const UploadMobilefolder({Key? key, required this.courseName}) : super(key: key);
+  const UploadMobilefolder({super.key, required this.courseName});
 
   @override
   _UploadMobilefolderState createState() => _UploadMobilefolderState();

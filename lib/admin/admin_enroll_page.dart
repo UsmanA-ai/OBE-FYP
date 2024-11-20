@@ -9,7 +9,7 @@ import 'package:myapp/admin/admin_profile_page.dart';
 import '../components.dart';
 
 class AdminEnrollPage extends StatefulWidget {
-  const AdminEnrollPage({Key? key}) : super(key: key);
+  const AdminEnrollPage({super.key});
   @override
   State<AdminEnrollPage> createState() => _AdminEnrollPageState();
 }

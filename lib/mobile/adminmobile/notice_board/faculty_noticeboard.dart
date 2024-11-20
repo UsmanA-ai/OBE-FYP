@@ -5,7 +5,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
 class AdminFacultyMobileNoticeBoard extends StatefulWidget {
-  const AdminFacultyMobileNoticeBoard({Key? key}) : super(key: key);
+  const AdminFacultyMobileNoticeBoard({super.key});
 
   @override
   State<AdminFacultyMobileNoticeBoard> createState() =>

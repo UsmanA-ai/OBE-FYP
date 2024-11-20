@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'HomePage.dart';
 
 class MyMobileHomePage extends StatefulWidget {
-  const MyMobileHomePage({Key? key}) : super(key: key);
+  const MyMobileHomePage({super.key});
   @override
   State<MyMobileHomePage> createState() => _MyMobileHomePageState();
 }

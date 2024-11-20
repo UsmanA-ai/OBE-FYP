@@ -4,7 +4,7 @@ import '../components.dart';
 
 class CSMapFinalExam extends StatefulWidget {
   final String courseName;
-  const CSMapFinalExam({Key? key, required this.courseName}) : super(key: key);
+  const CSMapFinalExam({super.key, required this.courseName});
 
   @override
   _CSMapFinalExamState createState() => _CSMapFinalExamState();

@@ -420,7 +420,7 @@ class _MobileStudentDashboardState extends State<MobileStudentDashboard> {
                                     ),
                                   ),
                                 );
-                              }).toList(),
+                              }),
                               const SizedBox(
                                 height: 15,
                               ),

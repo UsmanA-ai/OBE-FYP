@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myapp/mobile/facultymobile/faculty_dashboard.dart';
 
 class FacultyMobileLoginPage extends StatefulWidget {
-  const FacultyMobileLoginPage({Key? key}) : super(key: key);
+  const FacultyMobileLoginPage({super.key});
 
   @override
   State<FacultyMobileLoginPage> createState() => _FacultyMobileLoginPageState();

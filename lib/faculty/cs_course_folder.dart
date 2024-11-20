@@ -8,8 +8,7 @@ import 'cs_plos_page.dart';
 
 class FacultyCSCourseFolder extends StatelessWidget {
   final String program;
-  const FacultyCSCourseFolder({Key? key, required this.program})
-      : super(key: key);
+  const FacultyCSCourseFolder({super.key, required this.program});
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +169,7 @@ class FacultyCSCourseFolder extends StatelessWidget {
 
 class FacultyCourseData extends StatefulWidget {
   final String program;
-  const FacultyCourseData({Key? key, required this.program}) : super(key: key);
+  const FacultyCourseData({super.key, required this.program});
 
   @override
   _FacultyCourseDataState createState() => _FacultyCourseDataState();

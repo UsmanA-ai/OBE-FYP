@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class FacultyMobileContactus extends StatefulWidget {
-  const FacultyMobileContactus({Key? key}): super(key:key);
+  const FacultyMobileContactus({super.key});
   @override
   State<FacultyMobileContactus> createState() => _FacultyMobileContactusState();
 }

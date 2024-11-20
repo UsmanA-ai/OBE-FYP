@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SEMobileplos extends StatefulWidget {
-  const SEMobileplos({Key? key}) : super(key: key);
+  const SEMobileplos({super.key});
   @override
   _SEMobileplosState createState() => _SEMobileplosState();
 }

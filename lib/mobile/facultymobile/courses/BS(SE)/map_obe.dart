@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MapMobileObe extends StatefulWidget {
   final String courseName;
-  const MapMobileObe({Key? key, required this.courseName}) : super(key: key);
+  const MapMobileObe({super.key, required this.courseName});
 
   @override
   _MapMobileObeState createState() => _MapMobileObeState();

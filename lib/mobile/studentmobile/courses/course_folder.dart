@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class StudentMobileCourseFolder extends StatefulWidget {
   final String courseName;
-  const StudentMobileCourseFolder({Key? key, required this.courseName}) : super(key: key);
+  const StudentMobileCourseFolder({super.key, required this.courseName});
 
   @override
   _StudentMobileCourseFolderState createState() => _StudentMobileCourseFolderState();

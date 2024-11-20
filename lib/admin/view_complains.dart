@@ -5,8 +5,7 @@ import '../components.dart';
 class ComplainsFolder extends StatefulWidget {
   final String collectionName;
 
-  const ComplainsFolder({Key? key, required this.collectionName})
-      : super(key: key);
+  const ComplainsFolder({super.key, required this.collectionName});
 
   @override
   State<ComplainsFolder> createState() => _ComplainsFolderState();

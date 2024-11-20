@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/admin/login_page.dart';
 
 class AdminSignupPage extends StatefulWidget {
-  const AdminSignupPage({Key? key}) : super(key: key);
+  const AdminSignupPage({super.key});
   @override
   State<AdminSignupPage> createState() => _AdminSignupPageState();
 }

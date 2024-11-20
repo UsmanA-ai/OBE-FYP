@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CSMapMobileObeAssignment extends StatefulWidget {
   final String courseName;
-  const CSMapMobileObeAssignment({Key? key, required this.courseName})
-      : super(key: key);
+  const CSMapMobileObeAssignment({super.key, required this.courseName});
 
   @override
   _CSMapMobileObeAssignmentState createState() =>

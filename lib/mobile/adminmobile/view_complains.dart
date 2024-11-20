@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ComplainsMobileFolder extends StatefulWidget {
   final String collectionName;
 
-  const ComplainsMobileFolder({Key? key, required this.collectionName}) : super(key: key);
+  const ComplainsMobileFolder({super.key, required this.collectionName});
 
   @override
   State<ComplainsMobileFolder> createState() => _ComplainsFolderState();

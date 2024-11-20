@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'student_course_folder.dart';
 import '../components.dart';
 class StudentCoursePage extends StatelessWidget {
-  const StudentCoursePage({Key? key}) : super(key: key);
+  const StudentCoursePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +97,7 @@ class StudentCoursePage extends StatelessWidget {
 }
 
 class StudentCourseData extends StatefulWidget {
-  const StudentCourseData({Key? key}) : super(key: key);
+  const StudentCourseData({super.key});
 
   @override
   _StudentCourseDataState createState() => _StudentCourseDataState();

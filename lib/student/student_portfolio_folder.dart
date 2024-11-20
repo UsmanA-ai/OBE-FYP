@@ -5,7 +5,7 @@ import 'package:myapp/components.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Studentportfoliofolder extends StatelessWidget {
-  const Studentportfoliofolder({Key? key}) : super(key: key);
+  const Studentportfoliofolder({super.key});
 
   @override
   Widget build(BuildContext context) {

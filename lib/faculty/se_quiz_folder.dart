@@ -7,8 +7,7 @@ import '../components.dart';
 
 class FacultySEQuizFolder extends StatelessWidget {
   final String program;
-  const FacultySEQuizFolder({Key? key, required this.program})
-      : super(key: key);
+  const FacultySEQuizFolder({super.key, required this.program});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,7 +163,7 @@ class FacultySEQuizFolder extends StatelessWidget {
 
 class FacultyCourseData extends StatefulWidget {
   final String program;
-  const FacultyCourseData({Key? key, required this.program}) : super(key: key);
+  const FacultyCourseData({super.key, required this.program});
 
   @override
   _FacultyCourseDataState createState() => _FacultyCourseDataState();

@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CSMapMobileObeQuiz extends StatefulWidget {
   final String courseName;
-  const CSMapMobileObeQuiz({Key? key, required this.courseName})
-      : super(key: key);
+  const CSMapMobileObeQuiz({super.key, required this.courseName});
 
   @override
   _CSMapMobileObeQuizState createState() => _CSMapMobileObeQuizState();

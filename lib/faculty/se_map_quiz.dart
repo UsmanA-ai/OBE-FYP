@@ -4,7 +4,7 @@ import '../components.dart';
 
 class SEMapObeQuiz extends StatefulWidget {
   final String courseName;
-  const SEMapObeQuiz({Key? key, required this.courseName}) : super(key: key);
+  const SEMapObeQuiz({super.key, required this.courseName});
 
   @override
   _SEMapObeQuizState createState() => _SEMapObeQuizState();

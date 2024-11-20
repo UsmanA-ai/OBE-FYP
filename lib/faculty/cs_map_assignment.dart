@@ -4,8 +4,7 @@ import '../components.dart';
 
 class CSMapObeAssignment extends StatefulWidget {
   final String courseName;
-  const CSMapObeAssignment({Key? key, required this.courseName})
-      : super(key: key);
+  const CSMapObeAssignment({super.key, required this.courseName});
 
   @override
   _CSMapObeAssignmentState createState() => _CSMapObeAssignmentState();

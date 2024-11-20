@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'HomePage.dart';
 
 class MyWebHomePage extends StatefulWidget {
-  const MyWebHomePage({Key? key}) : super(key: key);
+  const MyWebHomePage({super.key});
   @override
   State<MyWebHomePage> createState() => _MyWebHomePageState();
 }
