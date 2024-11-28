@@ -162,6 +162,7 @@ class _AdminSEnrollMobilePageState extends State<AdminSEnrollMobilePage> {
                     name.clear();
                     paddress.clear();
                     password.clear();
+                    cpassword.clear();
                     phone.clear();
                     session.clear();
                     taddress.clear();

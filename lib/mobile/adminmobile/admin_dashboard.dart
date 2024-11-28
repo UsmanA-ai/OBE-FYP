@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:myapp/mobile/HomePage.dart';
 import 'package:myapp/mobile/adminmobile/course_page.dart';
 import 'package:myapp/mobile/adminmobile/profile_enrollment/admin_enroll_page.dart';
@@ -29,12 +33,30 @@ class _MobileAdminDashboardState extends State<MobileAdminDashboard> {
   int totalFacultyComplaints = 0;
   int totalComplaints = 0;
 
+  String? currentName;
+  String? currentEmail;
+
   @override
   void initState() {
     super.initState();
     fetchCounts();
     fetchLatestActivities();
     fetchComplaintCounts();
+    fetchUserDetails();
+  }
+
+  Future<void> fetchUserDetails() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      log(user.email ?? 'Email not found');
+      String name = user.email!.split('@').first.toUpperCase();
+      log(name);
+
+      currentEmail = user.email;
+      currentName = name;
+      setState(() {});
+    }
   }
 
   Future<void> fetchCounts() async {
@@ -105,20 +127,24 @@ class _MobileAdminDashboardState extends State<MobileAdminDashboard> {
           padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade900,
-                ),
-                currentAccountPicture: const CircleAvatar(
+              decoration: BoxDecoration(
+                color: Colors.blue.shade900,
+              ),
+              currentAccountPicture: GestureDetector(
+                onTap: () => fetchUserDetails(),
+                child: const CircleAvatar(
                   backgroundImage: AssetImage("assets/images/avator.png"),
                 ),
-                accountName: const Text(
-                  "Name",
-                  style: TextStyle(color: Colors.white),
-                ),
-                accountEmail: const Text(
-                  "Email",
-                  style: TextStyle(color: Colors.white),
-                )),
+              ),
+              accountName: Text(
+                currentName ?? "Name",
+                style: const TextStyle(color: Colors.white),
+              ),
+              accountEmail: Text(
+                currentEmail ?? "Email",
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
             ListTile(
               leading: Icon(
                 Icons.home,

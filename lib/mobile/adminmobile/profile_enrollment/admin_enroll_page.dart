@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../profile_view/profile_admin_page.dart';
+
 class AdminEnrollMobilePage extends StatefulWidget {
   const AdminEnrollMobilePage({super.key});
 
@@ -15,7 +16,6 @@ class AdminEnrollMobilePage extends StatefulWidget {
 }
 
 class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
-
   Uint8List? _image;
   final TextEditingController cnic = TextEditingController();
   final TextEditingController dob = TextEditingController();
@@ -137,39 +137,20 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                   print('Sending verification email...'); // Debugging statement
                   await userCredential.user!.sendEmailVerification();
                   print('Verification email sent!'); // Debugging statement
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Success'),
-                        content: const Text(
-                            'Registration successful.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              // Close the dialog
-                              Navigator.of(context).pop();
-                              // Clear form fields
-                              setState(() {
-                                bg.clear();
-                                cnic.clear();
-                                dob.clear();
-                                email.clear();
-                                fname.clear();
-                                id.clear();
-                                name.clear();
-                                paddress.clear();
-                                password.clear();
-                                phone.clear();
-                                taddress.clear();
-                              });
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  setState(() {
+                    bg.clear();
+                    cnic.clear();
+                    dob.clear();
+                    email.clear();
+                    fname.clear();
+                    id.clear();
+                    name.clear();
+                    paddress.clear();
+                    password.clear();
+                    cpassword.clear();
+                    phone.clear();
+                    taddress.clear();
+                  });
                 } on FirebaseAuthException catch (e) {
                   Fluttertoast.showToast(msg: e.code);
                 } catch (error) {
@@ -195,7 +176,6 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -203,17 +183,23 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back,color: Colors.white,),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          title: const Text("Admin Registration",style: TextStyle(color: Colors.white),),
+          title: const Text(
+            "Admin Registration",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.blue.shade900,
           centerTitle: true,
         ),
         body: Container(
-            width:double.infinity,
+            width: double.infinity,
             height: double.infinity,
             color: Colors.lightBlue.shade50,
             child: Form(
@@ -232,72 +218,91 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                             margin: const EdgeInsets.only(top: 10),
                             width: 100,
                             height: 100,
-                            child: _image !=
-                                null
+                            child: _image != null
                                 ? CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                              MemoryImage(
-                                  _image!),
-                            )
+                                    radius: 50,
+                                    backgroundImage: MemoryImage(_image!),
+                                  )
                                 : const CircleAvatar(
-                                radius: 50,
-                                backgroundImage:
-                                AssetImage(
-                                    "assets/images/avator.png")),
+                                    radius: 50,
+                                    backgroundImage:
+                                        AssetImage("assets/images/avator.png")),
                           ),
                           const Padding(padding: EdgeInsets.only(left: 40)),
                           Container(
-                            width:120,
+                            width: 120,
                             height: 35,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.blueGrey.withOpacity(0.5), // Shadow color
+                                  color: Colors.blueGrey
+                                      .withOpacity(0.5), // Shadow color
                                   spreadRadius: 3, // Spread radius
                                   blurRadius: 5, // Blur radius
-                                  offset: const Offset(0, 2), // Offset in the x, y direction
+                                  offset: const Offset(
+                                      0, 2), // Offset in the x, y direction
                                 ),
                               ],
                             ),
-                            child: ElevatedButton(onPressed:_pickProfileImage,
+                            child: ElevatedButton(
+                                onPressed: _pickProfileImage,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.lightBlue,
                                 ),
-                                child: const Text("Upload",style: TextStyle(fontSize: 20,color: Colors.white),)
-                            ),
+                                child: const Text(
+                                  "Upload",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                )),
                           ),
                           const Padding(padding: EdgeInsets.only(left: 10)),
-                          const Text("Upload Image",style: TextStyle(color: Colors.grey),)
+                          const Text(
+                            "Upload Image",
+                            style: TextStyle(color: Colors.grey),
+                          )
                         ],
                       ),
                       const Padding(
-                        padding:EdgeInsets.all(5),
-                        child: Divider(thickness: 3,),
+                        padding: EdgeInsets.all(5),
+                        child: Divider(
+                          thickness: 3,
+                        ),
                       ),
                       const Padding(
-                        padding:EdgeInsets.only(top: 2,right: 120),
-                        child: Text("PROFILE INFORMATION",style: TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.bold,fontSize: 20),),
+                        padding: EdgeInsets.only(top: 2, right: 120),
+                        child: Text(
+                          "PROFILE INFORMATION",
+                          style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
                       ),
                       const Padding(
-                        padding:EdgeInsets.all(5),
-                        child: Divider(thickness: 3,),
+                        padding: EdgeInsets.all(5),
+                        child: Divider(
+                          thickness: 3,
+                        ),
                       ),
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Admin ID:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Admin ID:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:40),
+                            padding: const EdgeInsets.only(top: 5, left: 40),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator: (value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter your id';
                                   }
@@ -307,20 +312,16 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Admin ID",
+                                    hintText: "Enter Admin ID",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -329,17 +330,21 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Name:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Name:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:70),
+                            padding: const EdgeInsets.only(top: 5, left: 70),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator: (value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter your name';
                                   }
@@ -349,20 +354,16 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Admin Name",
+                                    hintText: "Enter Admin Name",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -371,17 +372,21 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Father Name:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Father Name:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:7),
+                            padding: const EdgeInsets.only(top: 5, left: 7),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator: (value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Father Name';
                                   }
@@ -391,20 +396,16 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Father Name",
+                                    hintText: "Enter Father Name",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -413,40 +414,40 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Email:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Email:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:74),
+                            padding: const EdgeInsets.only(top: 5, left: 74),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator:(value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter email';
                                   }
                                   return null;
                                 },
-                                controller:email,
+                                controller: email,
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Email",
+                                    hintText: "Enter Email",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -455,40 +456,40 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Phone No:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Phone No:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:36),
+                            padding: const EdgeInsets.only(top: 5, left: 36),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator:(value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Phone Number';
                                   }
                                   return null;
                                 },
-                                controller:phone,
+                                controller: phone,
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.phone,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Phone Number",
+                                    hintText: "Enter Phone Number",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -497,40 +498,40 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("CNIC:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "CNIC:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top:5,left:78),
+                            padding: const EdgeInsets.only(top: 5, left: 78),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
-                              child:  TextFormField(
-                                validator:(value){
+                              child: TextFormField(
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your cnic no';
                                   }
                                   return null;
                                 },
-                                controller:cnic,
+                                controller: cnic,
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter cnic",
+                                    hintText: "Enter cnic",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -539,14 +540,18 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Gender",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Gender",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           const Padding(
-                            padding:EdgeInsets.only(top:5,left:33),
+                            padding: EdgeInsets.only(top: 5, left: 33),
                           ),
                           Padding(
-                              padding:const EdgeInsets.only(left:35),
+                              padding: const EdgeInsets.only(left: 35),
                               child: DropdownButton<String>(
                                 value: gender,
                                 hint: const Text("Select Gender"),
@@ -555,54 +560,56 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                     gender = value!;
                                   });
                                 },
-                                items: ['Male', 'Female', 'Other']
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: [
+                                  'Male',
+                                  'Female',
+                                  'Other'
+                                ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
                                   );
                                 }).toList(),
-                              )
-                          )
+                              ))
                         ],
                       ),
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Date of Birth:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Date of Birth:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:15),
+                            padding: const EdgeInsets.only(top: 5, left: 15),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator:(value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter date of birth';
                                   }
                                   return null;
                                 },
-                                controller:dob,
+                                controller: dob,
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
-                                    hintText:"dd/mm/yyyy",
+                                    hintText: "dd/mm/yyyy",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -611,40 +618,40 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
-                            child: Text("Blood Group:",style: TextStyle(color: Colors.blue,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Blood Group:",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:18),
+                            padding: const EdgeInsets.only(top: 5, left: 18),
                             child: SizedBox(
                               width: 230,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator:(value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter blood group';
                                   }
                                   return null;
                                 },
-                                controller:bg,
+                                controller: bg,
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Blood Group",
+                                    hintText: "Enter Blood Group",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -653,14 +660,15 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
+                            padding: EdgeInsets.only(left: 20),
                             child: Text(
                               "Password :",
-                              style: TextStyle(color: Colors.blue,fontSize: 20),
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top:5,left:35),
+                            padding: const EdgeInsets.only(top: 5, left: 35),
                             child: SizedBox(
                               width: 230,
                               height: 40,
@@ -681,12 +689,12 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.blue))),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           )
@@ -695,14 +703,15 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:20),
+                            padding: EdgeInsets.only(left: 20),
                             child: Text(
                               "C Password :",
-                              style: TextStyle(color: Colors.blue,fontSize: 20),
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top:5,left:17),
+                            padding: const EdgeInsets.only(top: 5, left: 17),
                             child: SizedBox(
                               width: 230,
                               height: 40,
@@ -711,9 +720,8 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter your confirm password';
                                   }
-                                  if(password.text!=cpassword.text)
-                                  {
-                                    return'password and conform password is incorrect';
+                                  if (password.text != cpassword.text) {
+                                    return 'password and conform password is incorrect';
                                   }
                                   return null;
                                 },
@@ -727,43 +735,58 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.blue))),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           )
                         ],
                       ),
                       const Padding(
-                        padding:EdgeInsets.all(5),
-                        child: Divider(thickness: 3,),
+                        padding: EdgeInsets.all(5),
+                        child: Divider(
+                          thickness: 3,
+                        ),
                       ),
                       const Padding(
-                        padding:EdgeInsets.only(top: 5,right: 120),
-                        child: Text("PREMANENT ADDRESS",style: TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.bold,fontSize: 20),),
+                        padding: EdgeInsets.only(top: 5, right: 120),
+                        child: Text(
+                          "PREMANENT ADDRESS",
+                          style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
                       ),
                       const Padding(
-                        padding:EdgeInsets.only(top: 1,bottom: 1,right: 5,left: 5),
-                        child: Divider(thickness: 3,),
+                        padding: EdgeInsets.only(
+                            top: 1, bottom: 1, right: 5, left: 5),
+                        child: Divider(
+                          thickness: 3,
+                        ),
                       ),
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:10),
-                            child: Text("Address:",style: TextStyle(color: Colors.black,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Address:",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:25),
+                            padding: const EdgeInsets.only(top: 5, left: 25),
                             child: SizedBox(
                               width: 250,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator:(value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Address';
                                   }
@@ -773,20 +796,16 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.multiline,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Address",
+                                    hintText: "Enter Address",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -795,11 +814,15 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:10),
-                            child: Text("District:",style: TextStyle(color: Colors.black,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "District:",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                              padding:const EdgeInsets.only(left:35),
+                              padding: const EdgeInsets.only(left: 35),
                               child: DropdownButton<String>(
                                 value: pdistrict,
                                 hint: const Text("Select District"),
@@ -808,43 +831,60 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                     pdistrict = value!;
                                   });
                                 },
-                                items: ['Rawalpindi', 'Gujarat', 'Other']
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: [
+                                  'Rawalpindi',
+                                  'Gujarat',
+                                  'Other'
+                                ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
                                   );
                                 }).toList(),
-                              )
-                          )
+                              ))
                         ],
                       ),
                       const Padding(
-                        padding:EdgeInsets.all(5),
-                        child: Divider(thickness: 3,),
+                        padding: EdgeInsets.all(5),
+                        child: Divider(
+                          thickness: 3,
+                        ),
                       ),
                       const Padding(
-                        padding:EdgeInsets.only(top: 5,right: 150),
-                        child: Text("PRESENT ADDRESS",style: TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.bold,fontSize: 20),),
+                        padding: EdgeInsets.only(top: 5, right: 150),
+                        child: Text(
+                          "PRESENT ADDRESS",
+                          style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
                       ),
                       const Padding(
-                        padding:EdgeInsets.only(top: 1,bottom: 1,right: 5,left: 5),
-                        child: Divider(thickness: 3,),
+                        padding: EdgeInsets.only(
+                            top: 1, bottom: 1, right: 5, left: 5),
+                        child: Divider(
+                          thickness: 3,
+                        ),
                       ),
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:10),
-                            child: Text("Address:",style: TextStyle(color: Colors.black,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Address:",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                            padding:const EdgeInsets.only(top:5,left:25),
+                            padding: const EdgeInsets.only(top: 5, left: 25),
                             child: SizedBox(
                               width: 250,
                               height: 40,
                               //color: Colors.red,
                               child: TextFormField(
-                                validator:(value){
+                                validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Address';
                                   }
@@ -854,20 +894,16 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                 cursorColor: Colors.blue,
                                 keyboardType: TextInputType.multiline,
                                 decoration: const InputDecoration(
-                                    hintText:"Enter Address",
+                                    hintText: "Enter Address",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.lightBlueAccent,
-                                          width: 2,
-                                        )
-                                    ),
+                                      color: Colors.lightBlueAccent,
+                                      width: 2,
+                                    )),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue
-                                        )
-                                    )
-                                ),
+                                        borderSide:
+                                            BorderSide(color: Colors.blue))),
                               ),
                             ),
                           ),
@@ -876,11 +912,15 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                       Row(
                         children: [
                           const Padding(
-                            padding:EdgeInsets.only(left:10),
-                            child: Text("District:",style: TextStyle(color: Colors.black,fontSize: 20),),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "District:",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
                           ),
                           Padding(
-                              padding:const EdgeInsets.only(left:35),
+                              padding: const EdgeInsets.only(left: 35),
                               child: DropdownButton<String>(
                                 value: tdistrict,
                                 hint: const Text("Select District"),
@@ -889,80 +929,99 @@ class _AdminEnrollMobilePageState extends State<AdminEnrollMobilePage> {
                                     tdistrict = value!;
                                   });
                                 },
-                                items: ['Rawalpindi', 'Gujarat', 'Other']
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: [
+                                  'Rawalpindi',
+                                  'Gujarat',
+                                  'Other'
+                                ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
                                   );
                                 }).toList(),
-                              )
-                          )
+                              ))
                         ],
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width:100,
+                            width: 100,
                             height: 35,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.blueGrey.withOpacity(0.5), // Shadow color
+                                  color: Colors.blueGrey
+                                      .withOpacity(0.5), // Shadow color
                                   spreadRadius: 3, // Spread radius
                                   blurRadius: 5, // Blur radius
-                                  offset: const Offset(0, 2), // Offset in the x, y direction
-                                ),
-                              ],
-                            ),
-                            child: ElevatedButton(onPressed:() =>
-                                signup(
-                                    context),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                ),
-                                child: const Text("Enroll",style: TextStyle(fontSize: 20,color: Colors.white),)
-                            ),
-                          ),
-                          const SizedBox(width: 20,),
-                          Container(
-                            width:130,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5), // Shadow color
-                                  spreadRadius: 3, // Spread radius
-                                  blurRadius: 5, // Blur radius
-                                  offset: const Offset(0, 2), // Offset in the x, y direction
+                                  offset: const Offset(
+                                      0, 2), // Offset in the x, y direction
                                 ),
                               ],
                             ),
                             child: ElevatedButton(
-                                onPressed: ()
-                                {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const AdminProfileMobilePage()));
+                                onPressed: () => signup(context),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                ),
+                                child: const Text(
+                                  "Enroll",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                )),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            width: 130,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey
+                                      .withOpacity(0.5), // Shadow color
+                                  spreadRadius: 3, // Spread radius
+                                  blurRadius: 5, // Blur radius
+                                  offset: const Offset(
+                                      0, 2), // Offset in the x, y direction
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AdminProfileMobilePage()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.grey.shade300,
                                 ),
-                                child: const Text("View",style: TextStyle(fontSize: 20,color: Colors.blue),)
-                            ),
+                                child: const Text(
+                                  "View",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.blue),
+                                )),
                           )
                         ],
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                 ),
               ),
-            )
-        ),
+            )),
       ),
     );
   }
