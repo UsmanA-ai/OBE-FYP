@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:myapp/mobile/HomePage.dart';
 import 'package:myapp/mobile/adminmobile/course_page.dart';
 import 'package:myapp/mobile/adminmobile/profile_enrollment/admin_enroll_page.dart';

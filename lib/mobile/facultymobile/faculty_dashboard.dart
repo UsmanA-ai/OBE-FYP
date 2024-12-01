@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +27,8 @@ class _FacultyMobileDashBoardState extends State<FacultyMobileDashBoard> {
   int totalStudents = 0;
   int totalSECourses = 0;
   int totalCSCourses = 0;
+  String? currentName;
+  String? currentEmail;
   List<Map<String, dynamic>> courseDetails = [];
   Map<String, dynamic> userData = {};
 
@@ -32,6 +36,21 @@ class _FacultyMobileDashBoardState extends State<FacultyMobileDashBoard> {
   void initState() {
     super.initState();
     fetchData();
+    fetchUserDetails();
+  }
+
+  Future<void> fetchUserDetails() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      log(user.email ?? 'Email not found');
+      String name = user.email!.split('@').first.toUpperCase();
+      log(name);
+
+      currentEmail = user.email;
+      currentName = name;
+      setState(() {});
+    }
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
@@ -147,13 +166,13 @@ class _FacultyMobileDashBoardState extends State<FacultyMobileDashBoard> {
                 currentAccountPicture: const CircleAvatar(
                   backgroundImage: AssetImage("assets/images/avator.png"),
                 ),
-                accountName: const Text(
-                  "Name",
-                  style: TextStyle(color: Colors.white),
+                accountName: Text(
+                  currentName ?? "Name",
+                  style: const TextStyle(color: Colors.white),
                 ),
-                accountEmail: const Text(
-                  "Email",
-                  style: TextStyle(color: Colors.white),
+                accountEmail: Text(
+                  currentEmail ?? "Email",
+                  style: const TextStyle(color: Colors.white),
                 )),
             ListTile(
               leading: Icon(
