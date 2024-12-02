@@ -19,10 +19,26 @@ class _MobileStudentDashboardState extends State<MobileStudentDashboard> {
   late Future<Map<String, dynamic>> userDataFuture;
   late Future<List<Map<String, dynamic>>> coursesFuture;
 
+  String? currentName;
+  String? currentEmail;
+
   @override
   void initState() {
     super.initState();
     userDataFuture = fetchUserData();
+    fetchUserDetails();
+  }
+
+  Future<void> fetchUserDetails() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      String name = user.email!.split('@').first.toUpperCase();
+
+      currentEmail = user.email;
+      currentName = name;
+      setState(() {});
+    }
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
@@ -69,13 +85,13 @@ class _MobileStudentDashboardState extends State<MobileStudentDashboard> {
                 currentAccountPicture: const CircleAvatar(
                   backgroundImage: AssetImage("assets/images/avator.png"),
                 ),
-                accountName: const Text(
-                  "Name",
-                  style: TextStyle(color: Colors.white),
+                accountName: Text(
+                  currentName ?? "Name",
+                  style: const TextStyle(color: Colors.white),
                 ),
-                accountEmail: const Text(
-                  "Email",
-                  style: TextStyle(color: Colors.white),
+                accountEmail: Text(
+                  currentEmail ?? "Email",
+                  style: const TextStyle(color: Colors.white),
                 )),
             ListTile(
               leading: Icon(

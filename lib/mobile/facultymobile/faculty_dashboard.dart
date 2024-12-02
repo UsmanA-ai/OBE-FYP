@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,9 +42,7 @@ class _FacultyMobileDashBoardState extends State<FacultyMobileDashBoard> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      log(user.email ?? 'Email not found');
       String name = user.email!.split('@').first.toUpperCase();
-      log(name);
 
       currentEmail = user.email;
       currentName = name;
