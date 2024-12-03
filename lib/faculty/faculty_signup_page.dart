@@ -21,7 +21,7 @@ class _FacultySignupPageState extends State<FacultySignupPage> {
     });
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+          .createUserWithEmailAndPassword(
               email: email.text.trim(), password: password.text);
       if (userCredential.user != null) {
         Navigator.pushReplacement(context,

@@ -21,7 +21,7 @@ class _AdminSignupPageState extends State<AdminSignupPage> {
     });
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+          .createUserWithEmailAndPassword(
               email: email.text.trim(), password: password.text);
       if (userCredential.user != null) {
         Navigator.pushReplacement(context,

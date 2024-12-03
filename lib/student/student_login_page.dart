@@ -412,39 +412,39 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                "Already have an account?",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const StudentSignupPage()),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "Login",
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )),
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     const SizedBox(
+                          //       height: 10,
+                          //     ),
+                          //     const Text(
+                          //       "Already have an account?",
+                          //       style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 20,
+                          //         fontWeight: FontWeight.w400,
+                          //       ),
+                          //     ),
+                          //     TextButton(
+                          //         onPressed: () {
+                          //           Navigator.pushReplacement(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //                 builder: (context) =>
+                          //                     const StudentSignupPage()),
+                          //           );
+                          //         },
+                          //         child: const Text(
+                          //           "Login",
+                          //           style: TextStyle(
+                          //             color: Colors.blue,
+                          //             fontSize: 20,
+                          //             fontWeight: FontWeight.w400,
+                          //           ),
+                          //         )),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),
