@@ -134,41 +134,24 @@ class _AdminFEnrollPageState extends State<AdminFEnrollPage> {
                     },
                   );
                   print('Sending verification email...'); // Debugging statement
-                  await userCredential.user!.sendEmailVerification();
+                  // await userCredential.user!.sendEmailVerification();
                   print('Verification email sent!'); // Debugging statement
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Success'),
-                        content: const Text(
-                            'Registration successful.Verification email sent.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              // Close the dialog
-                              Navigator.of(context).pop();
-                              // Clear form fields
-                              setState(() {
-                                bg.clear();
-                                cnic.clear();
-                                dob.clear();
-                                email.clear();
-                                fname.clear();
-                                id.clear();
-                                name.clear();
-                                paddress.clear();
-                                password.clear();
-                                phone.clear();
-                                taddress.clear();
-                              });
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+
+                  _showAlertDialog('Success', 'Registration successful');
+
+                  setState(() {
+                    bg.clear();
+                    cnic.clear();
+                    dob.clear();
+                    email.clear();
+                    fname.clear();
+                    id.clear();
+                    name.clear();
+                    paddress.clear();
+                    password.clear();
+                    phone.clear();
+                    taddress.clear();
+                  });
                 } on FirebaseAuthException catch (e) {
                   Fluttertoast.showToast(msg: e.code);
                 } catch (error) {
@@ -187,6 +170,26 @@ class _AdminFEnrollPageState extends State<AdminFEnrollPage> {
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showAlertDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('OK'),
             ),
           ],
         );

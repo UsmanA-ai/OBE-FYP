@@ -138,6 +138,7 @@ class _AdminFEnrollMobilePageState extends State<AdminFEnrollMobilePage> {
                   print('Sending verification email...'); // Debugging statement
                   await userCredential.user!.sendEmailVerification();
                   print('Verification email sent!'); // Debugging statement
+                  _showAlertDialog('Success', 'Registration Successful');
                   setState(() {
                     bg.clear();
                     cnic.clear();
@@ -170,6 +171,26 @@ class _AdminFEnrollMobilePageState extends State<AdminFEnrollMobilePage> {
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showAlertDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('OK'),
             ),
           ],
         );
