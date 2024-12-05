@@ -577,6 +577,8 @@
 //   }
 // }
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -598,6 +600,7 @@ class _StudentDashBoardState extends State<StudentDashBoard> {
   @override
   void initState() {
     super.initState();
+    log('message1');
     userDataFuture = fetchUserData();
   }
 
@@ -632,7 +635,7 @@ class _StudentDashBoardState extends State<StudentDashBoard> {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(child: Text('loading...'));
+            return const Center(child: Text('No Data loading...'));
           } else {
             var userData = snapshot.data!;
             String userName = userData['Name'];
@@ -642,10 +645,12 @@ class _StudentDashBoardState extends State<StudentDashBoard> {
               builder: (context, courseSnapshot) {
                 if (courseSnapshot.hasError) {
                   return Center(child: Text('Error: ${courseSnapshot.error}'));
-                } else if (!courseSnapshot.hasData ||
-                    courseSnapshot.data!.isEmpty) {
-                  return const Center(child: Text('loading....'));
-                } else {
+                }
+                // else if (!courseSnapshot.hasData ||
+                //     courseSnapshot.data!.isEmpty) {
+                //   return const Center(child: Text('Empty loading....'));
+                // }
+                else {
                   var courses = courseSnapshot.data!;
                   return SizedBox(
                     width: double.infinity,

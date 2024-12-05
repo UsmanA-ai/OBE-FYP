@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class _MobileStudentDashboardState extends State<MobileStudentDashboard> {
   @override
   void initState() {
     super.initState();
+    log('message1');
     userDataFuture = fetchUserData();
     fetchUserDetails();
   }
@@ -232,11 +235,15 @@ class _MobileStudentDashboardState extends State<MobileStudentDashboard> {
       body: FutureBuilder<Map<String, dynamic>>(
         future: userDataFuture,
         builder: (context, snapshot) {
+          log('log1');
           if (snapshot.hasError) {
+            log('log2');
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
+            log('log3');
             return const Center(child: Text('loading...'));
           } else {
+            log('log4');
             var userData = snapshot.data!;
             String userName = userData['Name'];
 
