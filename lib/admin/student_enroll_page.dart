@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:myapp/admin/profile_student_page.dart';
@@ -6,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:myapp/utils/cloudinary_uploader.dart';
 import '../components.dart';
 
 class AdminSEnrollPage extends StatefulWidget {
@@ -30,47 +32,55 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
   final TextEditingController paddress = TextEditingController();
   final TextEditingController session = TextEditingController();
   final TextEditingController taddress = TextEditingController();
-  String? tcity ;
-  String? tdistrict ;
+  String? tcity;
+  String? tdistrict;
   String? pcity;
-  String? pdistrict ;
-  String? program ;
-  String? semester ;
-  String? section ;
-  String? status ;
+  String? pdistrict;
+  String? program;
+  String? semester;
+  String? section;
+  String? status;
   final TextEditingController bg = TextEditingController();
-  String? gender ;
+  String? gender;
   final GlobalKey<FormState> formkey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey3 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey4 = GlobalKey<FormState>();
   bool isLoading = false;
+  Uint8List? _imageBytes;
+  File? _imageFile;
+  XFile? _pickedFile;
 // Function to pick an image from gallery
   Future<void> _pickProfileImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
+      _pickedFile = pickedImage;
       final imageBytes = await pickedImage.readAsBytes();
       setState(() {
         _image = imageBytes;
+        _imageBytes = imageBytes;
+      });
+      setState(() {
+        _imageFile = File(pickedImage.path);
       });
     }
   }
 
 // Function to upload image to Firebase Storage
   Future<String?> _uploadImageToFirebase() async {
-    if (_image == null) return null;
+    if (_imageFile == null) return null;
+    String? imageUrl = await CloudinaryUploader.uploadImage(
+      imageBytes: _imageBytes,
+      imageFile: _imageFile,
+      fileName: _pickedFile?.name, // Optional file name
+    );
 
-    try {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('profile_images')
-          .child('image_${DateTime.now().millisecondsSinceEpoch}.jpg');
-      await ref.putData(_image!);
-      final downloadURL = await ref.getDownloadURL();
-      return downloadURL;
-    } catch (error) {
-      print('Error uploading image: $error');
+    if (imageUrl != null) {
+      print("Uploaded Image URL: $imageUrl");
+      return imageUrl;
+    } else {
+      print("Failed to upload image.");
       return null;
     }
   }
@@ -1371,18 +1381,29 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                                   const EdgeInsets
                                                                       .only(
                                                                       left: 35),
-                                                              child: DropdownButton<String>(
+                                                              child:
+                                                                  DropdownButton<
+                                                                      String>(
                                                                 value: gender,
-                                                                hint: const Text("Select Gender"),
-                                                                onChanged: (value) {
+                                                                hint: const Text(
+                                                                    "Select Gender"),
+                                                                onChanged:
+                                                                    (value) {
                                                                   setState(() {
-                                                                    gender = value;
+                                                                    gender =
+                                                                        value;
                                                                   });
                                                                 },
-                                                                items: _genders.map<DropdownMenuItem<
-                                                                        String>>((String value) {
-                                                                  return DropdownMenuItem<String>(value: value,
-                                                                    child: Text(value),
+                                                                items: _genders.map<
+                                                                    DropdownMenuItem<
+                                                                        String>>((String
+                                                                    value) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value:
+                                                                        value,
+                                                                    child: Text(
+                                                                        value),
                                                                   );
                                                                 }).toList(),
                                                               ))
@@ -1927,8 +1948,7 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.blue),
-                                              )
-                                          ),
+                                              )),
                                         )
                                       ],
                                     ),
