@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/faculty/upload_folder.dart';
 import '../components.dart';
 import 'cs_obe_map.dart';
-import 'cs_plos_page.dart';
+// import 'cs_plos_page.dart';
 
 class FacultyCSCourseFolder extends StatelessWidget {
   final String program;
@@ -102,7 +102,7 @@ class FacultyCSCourseFolder extends StatelessWidget {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.start,
                                   children: [
                                     const Padding(
                                       padding: EdgeInsets.only(left: 10),
@@ -112,23 +112,23 @@ class FacultyCSCourseFolder extends StatelessWidget {
                                             color: Colors.blue, fontSize: 23),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const CSplos()));
-                                        },
-                                        child: const Text(
-                                          "View Program Learning Outcomes >>",
-                                          style: TextStyle(
-                                              color: Colors.blue, fontSize: 23),
-                                        ),
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(right: 10),
+                                    //   child: InkWell(
+                                    //     onTap: () {
+                                    //       Navigator.push(
+                                    //           context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   const CSplos()));
+                                    //     },
+                                    //     child: const Text(
+                                    //       "View Program Learning Outcomes >>",
+                                    //       style: TextStyle(
+                                    //           color: Colors.blue, fontSize: 23),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -198,25 +198,25 @@ class _FacultyCourseDataState extends State<FacultyCourseData> {
           if (courses.isEmpty) {
             return _buildErrorWidget("No data found.");
           } else {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Success"),
-                    content: const Text("Data fetched successfully."),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("Close"),
-                      ),
-                    ],
-                  );
-                },
-              );
-            });
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   showDialog(
+            //     context: context,
+            //     builder: (BuildContext context) {
+            //       return AlertDialog(
+            //         title: const Text("Success"),
+            //         content: const Text("Data fetched successfully."),
+            //         actions: <Widget>[
+            //           TextButton(
+            //             onPressed: () {
+            //               Navigator.of(context).pop();
+            //             },
+            //             child: const Text("Close"),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   );
+            // });
             return _buildDataTable(courses);
           }
         }
@@ -226,7 +226,7 @@ class _FacultyCourseDataState extends State<FacultyCourseData> {
 
   Widget _buildErrorWidget(String message) {
     return Center(
-      child: Text('Error: $message'),
+      child: Text(message),
     );
   }
 

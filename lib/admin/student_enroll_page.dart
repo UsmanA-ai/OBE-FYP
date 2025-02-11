@@ -15,6 +15,7 @@ class AdminSEnrollPage extends StatefulWidget {
 }
 
 class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
+  List<String> _genders = ['Male', 'Female', 'Other'];
   Uint8List? _image;
   final TextEditingController cnic = TextEditingController();
   final TextEditingController dob = TextEditingController();
@@ -29,16 +30,16 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
   final TextEditingController paddress = TextEditingController();
   final TextEditingController session = TextEditingController();
   final TextEditingController taddress = TextEditingController();
-  String? tcity = 'Rawalpindi';
-  String? tdistrict = 'Rawalpindi';
-  String? pcity = 'Rawalpindi';
-  String? pdistrict = 'Rawalpindi';
-  String? program = 'BS(SE)';
-  String? semester = '3';
-  String? section = 'B';
-  String? status = 'Regular';
+  String? tcity ;
+  String? tdistrict ;
+  String? pcity;
+  String? pdistrict ;
+  String? program ;
+  String? semester ;
+  String? section ;
+  String? status ;
   final TextEditingController bg = TextEditingController();
-  String? gender = 'Male';
+  String? gender ;
   final GlobalKey<FormState> formkey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey3 = GlobalKey<FormState>();
@@ -535,7 +536,6 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                                 items: [
                                                                   'BS(CS)',
                                                                   'BS(SE)',
-                                                                  'BS(IT)',
                                                                   'Other'
                                                                 ].map<
                                                                     DropdownMenuItem<
@@ -652,10 +652,6 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                                   '6',
                                                                   '7',
                                                                   '8',
-                                                                  '9',
-                                                                  '10',
-                                                                  '11',
-                                                                  '12'
                                                                 ].map<
                                                                     DropdownMenuItem<
                                                                         String>>((String
@@ -695,7 +691,7 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                                       String>(
                                                                 value: section,
                                                                 hint: const Text(
-                                                                    "Select Semester"),
+                                                                    "Select Section"),
                                                                 onChanged:
                                                                     (value) {
                                                                   setState(() {
@@ -746,7 +742,7 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                                       String>(
                                                                 value: status,
                                                                 hint: const Text(
-                                                                    "Select Semester"),
+                                                                    "Select Status"),
                                                                 onChanged:
                                                                     (value) {
                                                                   setState(() {
@@ -1375,33 +1371,18 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                                   const EdgeInsets
                                                                       .only(
                                                                       left: 35),
-                                                              child:
-                                                                  DropdownButton<
-                                                                      String>(
+                                                              child: DropdownButton<String>(
                                                                 value: gender,
-                                                                hint: const Text(
-                                                                    "Select Gender"),
-                                                                onChanged:
-                                                                    (value) {
+                                                                hint: const Text("Select Gender"),
+                                                                onChanged: (value) {
                                                                   setState(() {
-                                                                    gender =
-                                                                        value!;
+                                                                    gender = value;
                                                                   });
                                                                 },
-                                                                items: [
-                                                                  'Male',
-                                                                  'Female',
-                                                                  'Other'
-                                                                ].map<
-                                                                    DropdownMenuItem<
-                                                                        String>>((String
-                                                                    value) {
-                                                                  return DropdownMenuItem<
-                                                                      String>(
-                                                                    value:
-                                                                        value,
-                                                                    child: Text(
-                                                                        value),
+                                                                items: _genders.map<DropdownMenuItem<
+                                                                        String>>((String value) {
+                                                                  return DropdownMenuItem<String>(value: value,
+                                                                    child: Text(value),
                                                                   );
                                                                 }).toList(),
                                                               ))
@@ -1946,7 +1927,8 @@ class _AdminSEnrollPageState extends State<AdminSEnrollPage> {
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.blue),
-                                              )),
+                                              )
+                                          ),
                                         )
                                       ],
                                     ),

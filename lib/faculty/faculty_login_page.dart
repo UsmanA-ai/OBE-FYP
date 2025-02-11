@@ -33,7 +33,7 @@ class _FacultyLoginPageState extends State<FacultyLoginPage> {
       });
 
       if (usercredential.user != null) {
-        await _showMessageDialog("Success", "Login successful!");
+        // await _showMessageDialog("Success", "Login successful!");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const FacultyDashBoard()),
@@ -431,42 +431,42 @@ class _FacultyLoginPageState extends State<FacultyLoginPage> {
                                 ),
                               ),
                             ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                "Already have an account?",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const FacultySignupPage()),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "Signup",
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )),
-                            ],
-                          ),
+                          // const SizedBox(
+                          //   height: 20,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     const SizedBox(
+                          //       height: 10,
+                          //     ),
+                          //     const Text(
+                          //       "Already have an account?",
+                          //       style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 20,
+                          //         fontWeight: FontWeight.w400,
+                          //       ),
+                          //     ),
+                          //     TextButton(
+                          //         onPressed: () {
+                          //           Navigator.pushReplacement(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //                 builder: (context) =>
+                          //                     const FacultySignupPage()),
+                          //           );
+                          //         },
+                          //         child: const Text(
+                          //           "Signup",
+                          //           style: TextStyle(
+                          //             color: Colors.blue,
+                          //             fontSize: 20,
+                          //             fontWeight: FontWeight.w400,
+                          //           ),
+                          //         )),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),

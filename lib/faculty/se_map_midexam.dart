@@ -14,9 +14,9 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
   final TextEditingController midtextcontroller = TextEditingController();
   final TextEditingController questionTextController = TextEditingController();
   final TextEditingController marksTextController = TextEditingController();
-  String? selectedCLO = "Select";
+  // String? selectedCLO = "Select";
   String? selectedComplexity = "Select";
-  List<String> cloList = ["Select"];
+  // List<String> cloList = ["Select"];
   List<Map<String, dynamic>> midList = [];
   bool isLoading = false;
 
@@ -38,10 +38,10 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
           .where('courseName', isEqualTo: widget.courseName)
           .get();
 
-      final cloDocs = cloSnapshot.docs;
-      if (cloDocs.isNotEmpty) {
-        cloList.addAll(cloDocs.map((doc) => doc['CLO'].toString()).toList());
-      }
+      // final cloDocs = cloSnapshot.docs;
+      // if (cloDocs.isNotEmpty) {
+      //   cloList.addAll(cloDocs.map((doc) => doc['CLO'].toString()).toList());
+      // }
 
       // Fetch existing assignments
       final quizSnapshot = await FirebaseFirestore.instance
@@ -65,9 +65,9 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
     if (midtextcontroller.text.isEmpty ||
         questionTextController.text.isEmpty ||
         marksTextController.text.isEmpty ||
-        selectedCLO == null ||
+        // selectedCLO == null ||
         selectedComplexity == null ||
-        selectedCLO == "Select" ||
+        // selectedCLO == "Select" ||
         selectedComplexity == "Select") {
       showAlert(
           'Error', 'All fields must be filled and dropdowns must be selected');
@@ -78,7 +78,7 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
       'courseName': widget.courseName,
       'midexam': midtextcontroller.text,
       'question': questionTextController.text,
-      'CLO': selectedCLO,
+      // 'CLO': selectedCLO,
       'totalMarks': marksTextController.text,
       'complexity': selectedComplexity,
     };
@@ -96,7 +96,7 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
       questionTextController.clear();
       marksTextController.clear();
       setState(() {
-        selectedCLO = "Select";
+        // selectedCLO = "Select";
         selectedComplexity = "Select";
         midList.add(quizData);
       });
@@ -143,7 +143,7 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
               Text('Course Name: ${quiz['courseName']}'),
               Text('Mid_Exam: ${quiz['midexam']}'),
               Text('Question: ${quiz['question']}'),
-              Text('CLO: ${quiz['CLO']}'),
+              // Text('CLO: ${quiz['CLO']}'),
               Text('Total Marks: ${quiz['totalMarks']}'),
               Text('Complexity: ${quiz['complexity']}'),
             ],
@@ -255,7 +255,7 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
                               Positioned(
                                   top: 0,
                                   child:
-                                      FacultyHeader(name: "SE Mid Exam Clos")),
+                                      FacultyHeader(name: "SE Mid Exam")),
                             ],
                           ),
                         ),
@@ -367,34 +367,34 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Clo`s',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(
-                                width: 100,
-                                child: DropdownButton<String>(
-                                  value: selectedCLO,
-                                  items: cloList.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedCLO = newValue;
-                                    });
-                                  },
-                                )),
-                          ],
-                        ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text(
+                        //       'Clo`s',
+                        //       style: TextStyle(fontSize: 18),
+                        //     ),
+                        //     SizedBox(
+                        //         width: 100,
+                        //         child: DropdownButton<String>(
+                        //           value: selectedCLO,
+                        //           items: cloList.map((String value) {
+                        //             return DropdownMenuItem<String>(
+                        //               value: value,
+                        //               child: Text(value),
+                        //             );
+                        //           }).toList(),
+                        //           onChanged: (String? newValue) {
+                        //             setState(() {
+                        //               selectedCLO = newValue;
+                        //             });
+                        //           },
+                        //         )),
+                        //   ],
+                        // ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -523,15 +523,15 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
                               ),
                             ),
                           ),
-                          DataColumn(
-                            label: Text(
-                              'Clo`s',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 23,
-                              ),
-                            ),
-                          ),
+                          // DataColumn(
+                          //   label: Text(
+                          //     'Clo`s',
+                          //     style: TextStyle(
+                          //       color: Colors.blue,
+                          //       fontSize: 23,
+                          //     ),
+                          //   ),
+                          // ),
                           DataColumn(
                             label: Text(
                               'Total Marks',
@@ -565,7 +565,7 @@ class _SEMapMidExamState extends State<SEMapMidExam> {
                             DataCell(Text(quiz['courseName'] ?? '')),
                             DataCell(Text(quiz['midexam'] ?? '')),
                             DataCell(Text(quiz['question'] ?? '')),
-                            DataCell(Text(quiz['CLO'] ?? '')),
+                            // DataCell(Text(quiz['CLO'] ?? '')),
                             DataCell(Text(quiz['totalMarks'] ?? '')),
                             DataCell(Text(quiz['complexity'] ?? '')),
                             DataCell(

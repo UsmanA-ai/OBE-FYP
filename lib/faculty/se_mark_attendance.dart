@@ -40,6 +40,7 @@ class _SEMarkAttendanceState extends State<SEMarkAttendance> {
     final courseName = widget.courseName;
     final facultyName = widget.facultyName;
     final program = widget.program;
+    final lectureName = lectureController.text; // Get the lecture name from input
 
     setState(() {
       _isLoading = true;
@@ -70,28 +71,72 @@ class _SEMarkAttendanceState extends State<SEMarkAttendance> {
 
       // Get the student details
       List<Map<String, dynamic>> students = [];
+      // Check attendance for each student
       for (var doc in studentSnapshot.docs) {
+        final studentId = doc['Id'];
+
+        // Query Firestore to check if the student has attendance recorded for this lecture
+        final attendanceSnapshot = await FirebaseFirestore.instance
+            .collection('seattendance')
+            .where('lecture', isEqualTo: lectureName) // Check by lecture name
+            .where('courseName', isEqualTo: courseName)
+            .get();
+
+        String attendanceStatus = "Not Marked";
+
+        // If attendance exists, check if this student is in the record
+        if (attendanceSnapshot.docs.isNotEmpty) {
+          for (var attendanceDoc in attendanceSnapshot.docs) {
+            List<dynamic> attendanceData = attendanceDoc['attendance'];
+
+            // Find if the student is in the attendance list
+            var studentRecord = attendanceData.firstWhere(
+                  (record) => record['Id'] == studentId,
+              orElse: () => null,
+            );
+
+            if (studentRecord != null) {
+              attendanceStatus = studentRecord['Status'] ?? "Marked";
+            }
+          }
+        }
+
         students.add({
           'Name': doc['Name'],
           'Program': doc['Program'],
-          'Id': doc['Id'],
-          'Status': 'Not Marked', // Initial status
+          'Id': studentId,
+          'Status': attendanceStatus, // Updated status
         });
       }
 
-      // Update the state
+      // Update the state with fetched students
       setState(() {
         _students = students;
       });
+
     } catch (e) {
-      // Handle any errors
-      print(e);
+      print("Error fetching students: $e");
+      _showAlertDialog('Error', 'Failed to fetch student data.');
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
   }
+
+        //     // Update the state
+  //     setState(() {
+  //       _students = students;
+  //     });
+  //   } catch (e) {
+  //     // Handle any errors
+  //     print(e);
+  //   } finally {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
 
   Future<void> _save() async {
     // Save the data locally or to a local database if needed

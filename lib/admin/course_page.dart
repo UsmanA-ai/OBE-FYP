@@ -214,9 +214,11 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
+      body:
+      isLoading
           ? const Center(child: CircularProgressIndicator(color: Colors.blue))
-          : SizedBox(
+          :
+      SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: Stack(
@@ -283,7 +285,8 @@ class _CoursePageState extends State<CoursePage> {
                                   borderRadius: const BorderRadius.only(
                                       topRight: Radius.circular(24),
                                       bottomRight: Radius.circular(24))),
-                              child: Stack(
+                              child:
+                              Stack(
                                 children: [
                                   Positioned(
                                       top: 0,

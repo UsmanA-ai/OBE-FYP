@@ -15,6 +15,7 @@ class AdminEnrollPage extends StatefulWidget {
 }
 
 class _AdminEnrollPageState extends State<AdminEnrollPage> {
+  List<String> _genders = ['Male', 'Female', 'Other'];
   Uint8List? _image;
   final TextEditingController cnic = TextEditingController();
   final TextEditingController dob = TextEditingController();
@@ -27,12 +28,12 @@ class _AdminEnrollPageState extends State<AdminEnrollPage> {
   final TextEditingController cpassword = TextEditingController();
   final TextEditingController paddress = TextEditingController();
   final TextEditingController taddress = TextEditingController();
-  String? tcity = 'Rawalpindi';
-  String? tdistrict = 'Rawalpindi';
-  String? pcity = 'Rawalpindi';
-  String? pdistrict = 'Rawalpindi';
+  String? tcity ;
+  String? tdistrict ;
+  String? pcity ;
+  String? pdistrict ;
   final TextEditingController bg = TextEditingController();
-  String? gender = 'Male';
+  String? gender ;
   final GlobalKey<FormState> formkey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey3 = GlobalKey<FormState>();
@@ -792,36 +793,18 @@ class _AdminEnrollPageState extends State<AdminEnrollPage> {
                                                           ),
                                                           Padding(
                                                               padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 35),
-                                                              child:
-                                                                  DropdownButton<
-                                                                      String>(
+                                                                  const EdgeInsets.only(left: 35),
+                                                              child: DropdownButton<String>(
                                                                 value: gender,
-                                                                hint: const Text(
-                                                                    "Select Gender"),
-                                                                onChanged:
-                                                                    (value) {
+                                                                hint: const Text("Select Gender"),
+                                                                onChanged: (value) {
                                                                   setState(() {
-                                                                    gender =
-                                                                        value!;
+                                                                    gender = value;
                                                                   });
                                                                 },
-                                                                items: [
-                                                                  'Male',
-                                                                  'Female',
-                                                                  'Other'
-                                                                ].map<
-                                                                    DropdownMenuItem<
-                                                                        String>>((String
-                                                                    value) {
-                                                                  return DropdownMenuItem<
-                                                                      String>(
-                                                                    value:
-                                                                        value,
-                                                                    child: Text(
-                                                                        value),
+                                                                items: _genders.map<DropdownMenuItem<String>>((String value) {
+                                                                  return DropdownMenuItem<String>(value: value,
+                                                                    child: Text(value),
                                                                   );
                                                                 }).toList(),
                                                               ))

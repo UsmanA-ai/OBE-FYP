@@ -12,42 +12,42 @@ class MapObe extends StatefulWidget {
 }
 
 class _MapObeState extends State<MapObe> {
-  String? selectedPLO = 'Select';
+  // String? selectedPLO = 'Select';
   String? selectdomain = 'Select';
   String? selectlevel = 'Select';
-  final TextEditingController cloTextController = TextEditingController();
+  // final TextEditingController cloTextController = TextEditingController();
   final TextEditingController objectivesTextController =
       TextEditingController();
   List<Map<String, dynamic>> courseObjectives = [];
-  List<String> ploValues = [];
+  // List<String> ploValues = [];
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchPLOValues();
+    // _fetchPLOValues();
     _fetchObjectives();
   }
 
-  Future<void> _fetchPLOValues() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      QuerySnapshot snapshot =
-          await FirebaseFirestore.instance.collection('seplos').get();
-
-      setState(() {
-        ploValues = snapshot.docs.map((doc) => doc['Sr#'].toString()).toList();
-        _isLoading = false;
-      });
-    } catch (e) {
-      _showAlertDialog('Failed to fetch PLO values', 'Error: $e');
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
+  // Future<void> _fetchPLOValues() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   try {
+  //     QuerySnapshot snapshot =
+  //         await FirebaseFirestore.instance.collection('seplos').get();
+  //
+  //     setState(() {
+  //       ploValues = snapshot.docs.map((doc) => doc['Sr#'].toString()).toList();
+  //       _isLoading = false;
+  //     });
+  //   } catch (e) {
+  //     _showAlertDialog('Failed to fetch PLO values', 'Error: $e');
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
 
   Future<void> _fetchObjectives() async {
     setState(() {
@@ -64,8 +64,8 @@ class _MapObeState extends State<MapObe> {
             .map((doc) => {
                   'id': doc.id,
                   'courseName': doc['courseName'],
-                  'CLO': doc['CLO'],
-                  'PLO': doc['PLO'],
+                  // 'CLO': doc['CLO'],
+                  // 'PLO': doc['PLO'],
                   'Domain': doc['Domain'],
                   'Level': doc['Level'],
                   'objectivesText': doc['objectivesText'],
@@ -83,15 +83,16 @@ class _MapObeState extends State<MapObe> {
 
   void _addObjective() async {
     if (objectivesTextController.text.isNotEmpty &&
-        cloTextController.text.isNotEmpty &&
+        // cloTextController.text.isNotEmpty &&
         selectdomain != 'Select' &&
-        selectlevel != 'Select' &&
-        selectedPLO != 'Select') {
+        selectlevel != 'Select'
+        // && selectedPLO != 'Select'
+    ) {
       try {
         await FirebaseFirestore.instance.collection('course_objectives').add({
           'courseName': widget.courseName,
-          'CLO': cloTextController.text,
-          'PLO': selectedPLO,
+          // 'CLO': cloTextController.text,
+          // 'PLO': selectedPLO,
           'objectivesText': objectivesTextController.text,
           'Domain': selectdomain,
           'Level': selectlevel,
@@ -101,10 +102,10 @@ class _MapObeState extends State<MapObe> {
 
         // Clear the form fields
         setState(() {
-          selectedPLO = 'Select';
+          // selectedPLO = 'Select';
           selectdomain = 'Select';
           selectlevel = 'Select';
-          cloTextController.clear();
+          // cloTextController.clear();
           objectivesTextController.clear();
         });
 
@@ -202,8 +203,8 @@ class _MapObeState extends State<MapObe> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text('Course Name: ${objective['courseName'] ?? ''}'),
-              Text('CLO: ${objective['CLO'] ?? ''}'),
-              Text('PLO: ${objective['PLO'] ?? ''}'),
+              // Text('CLO: ${objective['CLO'] ?? ''}'),
+              // Text('PLO: ${objective['PLO'] ?? ''}'),
               Text('Domain: ${objective['Domain'] ?? ''}'),
               Text('Level: ${objective['Level'] ?? ''}'),
               Text('Description: ${objective['objectivesText'] ?? ''}'),
@@ -224,7 +225,7 @@ class _MapObeState extends State<MapObe> {
 
   @override
   void dispose() {
-    cloTextController.dispose();
+    // cloTextController.dispose();
     objectivesTextController.dispose();
     super.dispose();
   }
@@ -308,7 +309,7 @@ class _MapObeState extends State<MapObe> {
                             children: [
                               Positioned(
                                   top: 0,
-                                  child: FacultyHeader(name: "SE Course Clos")),
+                                  child: FacultyHeader(name: "SE Course")),
                             ],
                           ),
                         ),
@@ -359,28 +360,28 @@ class _MapObeState extends State<MapObe> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Clo`s',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(
-                              width: 170,
-                              child: TextFormField(
-                                controller: cloTextController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter CLO',
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text(
+                        //       'Clo`s',
+                        //       style: TextStyle(fontSize: 18),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 170,
+                        //       child: TextFormField(
+                        //         controller: cloTextController,
+                        //         decoration: const InputDecoration(
+                        //           hintText: 'Enter CLO',
+                        //           border: OutlineInputBorder(),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(
                             left: 20,
@@ -420,40 +421,40 @@ class _MapObeState extends State<MapObe> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Plo`s',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: DropdownButton<String>(
-                                value: selectedPLO,
-                                icon: const Padding(
-                                  padding: EdgeInsets.only(left: 30),
-                                  child: Icon(Icons.arrow_drop_down),
-                                ),
-                                items: ['Select', ...ploValues]
-                                    .map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    selectedPLO = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text(
+                        //       'Plo`s',
+                        //       style: TextStyle(fontSize: 18),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 100,
+                        //       child: DropdownButton<String>(
+                        //         value: selectedPLO,
+                        //         icon: const Padding(
+                        //           padding: EdgeInsets.only(left: 30),
+                        //           child: Icon(Icons.arrow_drop_down),
+                        //         ),
+                        //         items: ['Select', ...ploValues]
+                        //             .map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value),
+                        //           );
+                        //         }).toList(),
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             selectedPLO = newValue;
+                        //           });
+                        //         },
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -589,15 +590,15 @@ class _MapObeState extends State<MapObe> {
                                       ),
                                     ),
                                   ),
-                                  DataColumn(
-                                    label: Text(
-                                      'CLO',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 23,
-                                      ),
-                                    ),
-                                  ),
+                                  // DataColumn(
+                                  //   label: Text(
+                                  //     'CLO',
+                                  //     style: TextStyle(
+                                  //       color: Colors.blue,
+                                  //       fontSize: 23,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   DataColumn(
                                     label: Text(
                                       'Description',
@@ -607,15 +608,15 @@ class _MapObeState extends State<MapObe> {
                                       ),
                                     ),
                                   ),
-                                  DataColumn(
-                                    label: Text(
-                                      'PLO',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 23,
-                                      ),
-                                    ),
-                                  ),
+                                  // DataColumn(
+                                  //   label: Text(
+                                  //     'PLO',
+                                  //     style: TextStyle(
+                                  //       color: Colors.blue,
+                                  //       fontSize: 23,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   DataColumn(
                                     label: Text(
                                       'Domain',
@@ -657,7 +658,7 @@ class _MapObeState extends State<MapObe> {
                                           ),
                                         ),
                                       )),
-                                      DataCell(Text(objective['CLO'] ?? '')),
+                                      // DataCell(Text(objective['CLO'] ?? '')),
                                       DataCell(
                                         SizedBox(
                                           width: 200,
@@ -671,7 +672,7 @@ class _MapObeState extends State<MapObe> {
                                           ),
                                         ),
                                       ),
-                                      DataCell(Text(objective['PLO'] ?? '')),
+                                      // DataCell(Text(objective['PLO'] ?? '')),
                                       DataCell(Text(objective['Domain'] ?? '')),
                                       DataCell(Text(objective['Level'] ?? '')),
                                       DataCell(

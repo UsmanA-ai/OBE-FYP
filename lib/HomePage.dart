@@ -47,6 +47,7 @@ class WebHomePage extends StatelessWidget {
                       width: width,
                       height: height,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.blueAccent,
                         shadowColor: Colors.blue,
                         elevation: 20,
@@ -54,11 +55,13 @@ class WebHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(23),
                         ),
                         child: InkWell(
-                          child: Text(
-                            "Admin",
-                            style: TextStyle(
-                                color: Colors.white, fontSize: textSize),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: Text(
+                              "Admin",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: textSize),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -69,11 +72,12 @@ class WebHomePage extends StatelessWidget {
                           },
                         ),
                       ),
-                    ),
+                    ), //Admin
                     SizedBox(
                       width: width,
                       height: height,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.blueAccent,
                         shadowColor: Colors.blue,
                         elevation: 20,
@@ -81,11 +85,13 @@ class WebHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(23),
                         ),
                         child: InkWell(
-                          child: Text(
-                            "Faculty",
-                            style: TextStyle(
-                                color: Colors.white, fontSize: textSize),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: Text(
+                              "Faculty",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: textSize),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -97,11 +103,12 @@ class WebHomePage extends StatelessWidget {
                           },
                         ),
                       ),
-                    ),
+                    ), //Faculty
                     SizedBox(
                       width: width,
                       height: height,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.blueAccent,
                         shadowColor: Colors.blue,
                         elevation: 20,
@@ -109,11 +116,13 @@ class WebHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(23),
                         ),
                         child: InkWell(
-                          child: Text(
-                            "Student",
-                            style: TextStyle(
-                                color: Colors.white, fontSize: textSize),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: Text(
+                              "Student",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: textSize),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -125,7 +134,7 @@ class WebHomePage extends StatelessWidget {
                           },
                         ),
                       ),
-                    )
+                    ) //Student
                   ],
                 ),
               ],

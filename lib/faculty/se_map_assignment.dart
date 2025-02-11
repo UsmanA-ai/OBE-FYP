@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import '../components.dart';
 
 class SEMapObeAssignment extends StatefulWidget {
@@ -11,23 +12,22 @@ class SEMapObeAssignment extends StatefulWidget {
 }
 
 class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
-  final TextEditingController assignmenttextcontroller =
-      TextEditingController();
+  final TextEditingController assignmenttextcontroller = TextEditingController();
   final TextEditingController questionTextController = TextEditingController();
   final TextEditingController marksTextController = TextEditingController();
-  String? selectedCLO = "Select";
+  // String? selectedCLO = "Select";
   String? selectedComplexity = "Select";
-  List<String> cloList = ["Select"];
+  // List<String> cloList = ["Select", "Usman"];
   List<Map<String, dynamic>> assignmentList = [];
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    fetchCLOsAndAssignments();
+    fetchAssignments();
   }
 
-  Future<void> fetchCLOsAndAssignments() async {
+  Future<void> fetchAssignments() async {
     setState(() {
       isLoading = true;
     });
@@ -39,10 +39,10 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
           .where('courseName', isEqualTo: widget.courseName)
           .get();
 
-      final cloDocs = cloSnapshot.docs;
-      if (cloDocs.isNotEmpty) {
-        cloList.addAll(cloDocs.map((doc) => doc['CLO'].toString()).toList());
-      }
+      // final cloDocs = cloSnapshot.docs;
+      // if (cloDocs.isNotEmpty) {
+      //   cloList.addAll(cloDocs.map((doc) => doc['CLO'].toString()).toList());
+      // }
 
       // Fetch existing assignments
       final assignmentSnapshot = await FirebaseFirestore.instance
@@ -67,9 +67,9 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
     if (assignmenttextcontroller.text.isEmpty ||
         questionTextController.text.isEmpty ||
         marksTextController.text.isEmpty ||
-        selectedCLO == null ||
+        // selectedCLO == null ||
         selectedComplexity == null ||
-        selectedCLO == "Select" ||
+        // selectedCLO == "Select" ||
         selectedComplexity == "Select") {
       showAlert(
           'Error', 'All fields must be filled and dropdowns must be selected');
@@ -80,9 +80,10 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
       'courseName': widget.courseName,
       'assignment': assignmenttextcontroller.text,
       'question': questionTextController.text,
-      'CLO': selectedCLO,
-      'totalMarks': marksTextController.text,
+      // 'CLO': selectedCLO,
       'complexity': selectedComplexity,
+      'totalMarks': marksTextController.text,
+
     };
 
     setState(() {
@@ -100,7 +101,7 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
       questionTextController.clear();
       marksTextController.clear();
       setState(() {
-        selectedCLO = "Select";
+        // selectedCLO = "Select";
         selectedComplexity = "Select";
         assignmentList.add(assignmentData);
       });
@@ -147,9 +148,10 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
               Text('Course Name: ${assignment['courseName']}'),
               Text('Assignment: ${assignment['assignment']}'),
               Text('Question: ${assignment['question']}'),
-              Text('CLO: ${assignment['CLO']}'),
-              Text('Total Marks: ${assignment['totalMarks']}'),
+              // Text('CLO: ${assignment['CLO']}'),
               Text('Complexity: ${assignment['complexity']}'),
+              Text('Total Marks: ${assignment['totalMarks']}'),
+
             ],
           ),
         ),
@@ -259,7 +261,7 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                               Positioned(
                                   top: 0,
                                   child: FacultyHeader(
-                                      name: "SE Assignment Clos")),
+                                      name: "SE Assignment")),
                             ],
                           ),
                         ),
@@ -317,13 +319,15 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Assignment',
+                              'Assignment No.',
                               style: TextStyle(fontSize: 18),
                             ),
                             SizedBox(
                               width: 170,
                               child: TextFormField(
                                 controller: assignmenttextcontroller,
+                                keyboardType: TextInputType.number, // Restricts keyboard to numbers
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 decoration: const InputDecoration(
                                   hintText: 'Enter Assignment no',
                                   border: OutlineInputBorder(),
@@ -371,56 +375,34 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Clo`s',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(
-                                width: 100,
-                                child: DropdownButton<String>(
-                                  value: selectedCLO,
-                                  items: cloList.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedCLO = newValue;
-                                    });
-                                  },
-                                )),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Total Marks',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(
-                              width: 170,
-                              child: TextFormField(
-                                controller: marksTextController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter Marks',
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text(
+                        //       'Clo`s',
+                        //       style: TextStyle(fontSize: 18),
+                        //     ),
+                        //     SizedBox(
+                        //         width: 100,
+                        //         child: DropdownButton<String>(
+                        //           value: selectedCLO,
+                        //           items: cloList.map((String value) {
+                        //             return DropdownMenuItem<String>(
+                        //               value: value,
+                        //               child: Text(value),
+                        //             );
+                        //           }).toList(),
+                        //           onChanged: (String? newValue) {
+                        //             setState(() {
+                        //               selectedCLO = newValue;
+                        //             });
+                        //           },
+                        //         )),
+                        //   ],
+                        // ),
                         const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,6 +427,28 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                                     selectedComplexity = newValue;
                                   });
                                 },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Total Marks',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            SizedBox(
+                              width: 170,
+                              child: TextFormField(
+                                controller: marksTextController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter Marks',
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
                             ),
                           ],
@@ -527,9 +531,18 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                               ),
                             ),
                           ),
+                          // DataColumn(
+                          //   label: Text(
+                          //     'Clo`s',
+                          //     style: TextStyle(
+                          //       color: Colors.blue,
+                          //       fontSize: 23,
+                          //     ),
+                          //   ),
+                          // ),
                           DataColumn(
                             label: Text(
-                              'Clo`s',
+                              'Complexity',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: 23,
@@ -539,15 +552,6 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                           DataColumn(
                             label: Text(
                               'Total Marks',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 23,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Complexity',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: 23,
@@ -569,24 +573,44 @@ class _SEMapObeAssignmentState extends State<SEMapObeAssignment> {
                             DataCell(Text(assignment['courseName'] ?? '')),
                             DataCell(Text(assignment['assignment'] ?? '')),
                             DataCell(Text(assignment['question'] ?? '')),
-                            DataCell(Text(assignment['CLO'] ?? '')),
-                            DataCell(Text(assignment['totalMarks'] ?? '')),
+                            // DataCell(Text(assignment['CLO'] ?? '')),
                             DataCell(Text(assignment['complexity'] ?? '')),
+                            DataCell(Text(assignment['totalMarks'] ?? '')),
                             DataCell(
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () =>
-                                        deleteAssignment(assignment['id']),
-                                    icon: const Icon(Icons.delete),
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>
-                                        quickViewAssignment(assignment),
-                                    icon: const Icon(Icons.remove_red_eye),
-                                  ),
-                                ],
+                              PopupMenuButton<String>(
+                              itemBuilder: (BuildContext context) {
+                                return {'Delete', 'QuickView', 'View Assignment'}.map((String choice) {
+                                  return PopupMenuItem<String>(
+                                  value: choice,
+                              child: Text(choice),
+                              );
+                                }).toList();
+                                },
+                                onSelected: (String choice) {
+                                  if (choice == 'Delete') {
+                                  deleteAssignment(assignment['id']);
+                                  // icon: const Icon(Icons.delete);
+                                  } else if (choice == 'QuickView') {
+                                  quickViewAssignment(assignment);
+                                  // icon: const Icon(Icons.remove_red_eye);
+                                  } else if (choice == 'View Assignment') {}
+                                },
                               ),
+
+                              // Row(
+                              //   children: [
+                              //     IconButton(
+                              //       onPressed: () =>
+                              //           deleteAssignment(assignment['id']),
+                              //       icon: const Icon(Icons.delete),
+                              //     ),
+                              //     IconButton(
+                              //       onPressed: () =>
+                              //           quickViewAssignment(assignment),
+                              //       icon: const Icon(Icons.remove_red_eye),
+                              //     ),
+                              //   ],
+                              // ),
                             ),
                           ]);
                         }).toList(),

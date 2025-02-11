@@ -438,7 +438,7 @@ class _AdminDashBoardState extends State<AdminDashBoard> {
                             ),
                             Positioned(
                               right: 40,
-                              bottom: 30,
+                              bottom: 65,
                               child: Container(
                                 width: 300,
                                 height: 535,

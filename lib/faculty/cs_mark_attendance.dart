@@ -40,6 +40,7 @@ class _CSMarkAttendanceState extends State<CSMarkAttendance> {
     final courseName = widget.courseName;
     final facultyName = widget.facultyName;
     final program = widget.program;
+    final lectureName = lectureController.text;
 
     setState(() {
       _isLoading = true;
@@ -55,7 +56,6 @@ class _CSMarkAttendanceState extends State<CSMarkAttendance> {
           .where('Facultyname', isEqualTo: facultyName)
           .where('Program', isEqualTo: program)
           .get();
-
       // Get the Student IDs
       List<String> studentIds = [];
       for (var doc in courseSnapshot.docs) {
@@ -71,26 +71,75 @@ class _CSMarkAttendanceState extends State<CSMarkAttendance> {
       // Get the student details
       List<Map<String, dynamic>> students = [];
       for (var doc in studentSnapshot.docs) {
+        final studentId = doc['Id'];
+
+        // Query Firestore to check if the student has attendance recorded for this lecture
+        final attendanceSnapshot = await FirebaseFirestore.instance
+            .collection('cs_attendance')
+            .where('lecture', isEqualTo: lectureName) // Check by lecture name
+            .where('courseName', isEqualTo: courseName)
+            .get();
+        String attendanceStatus = "Not Marked";
+
+        // If attendance exists, check if this student is in the record
+        if (attendanceSnapshot.docs.isNotEmpty) {
+          for (var attendanceDoc in attendanceSnapshot.docs) {
+            List<dynamic> attendanceData = attendanceDoc['attendance'];
+
+            // Find if the student is in the attendance list
+            var studentRecord = attendanceData.firstWhere(
+                  (record) => record['Id'] == studentId,
+              orElse: () => null,
+            );
+
+            if (studentRecord != null) {
+              attendanceStatus = studentRecord['Status'] ?? "Marked";
+            }
+          }
+        }
+
         students.add({
           'Name': doc['Name'],
           'Program': doc['Program'],
-          'Id': doc['Id'],
-          'Status': 'Not Marked', // Initial status
+          'Id': studentId,
+          'Status': attendanceStatus, // Updated status
         });
       }
 
-      // Update the state
+      // Update the state with fetched students
       setState(() {
         _students = students;
       });
+
     } catch (e) {
-      // Handle any errors
-      print(e);
+      print("Error fetching students: $e");
+      _showAlertDialog('Error', 'Failed to fetch student data.');
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
+      // for (var doc in studentSnapshot.docs) {
+      //   students.add({
+      //     'Name': doc['Name'],
+      //     'Program': doc['Program'],
+      //     'Id': doc['Id'],
+      //     'Status': 'Not Marked', // Initial status
+      //   });
+      // }
+
+      // Update the state
+    //   setState(() {
+    //     _students = students;
+    //   });
+    // } catch (e) {
+    //   // Handle any errors
+    //   print(e);
+    // } finally {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // }
   }
 
   Future<void> _save() async {

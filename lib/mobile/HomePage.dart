@@ -29,7 +29,7 @@ class MobileHomePage extends StatelessWidget {
                   child: Image.asset("assets/images/Obe.png"),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 100,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,6 +39,7 @@ class MobileHomePage extends StatelessWidget {
                       width: 120,
                       height: 60,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.blueAccent,
                         shadowColor: Colors.blue,
                         elevation: 20,
@@ -46,10 +47,12 @@ class MobileHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(23),
                         ),
                         child: InkWell(
-                          child: const Text(
-                            "Admin",
-                            style: TextStyle(color: Colors.white, fontSize: 30),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: const Text(
+                              "Admin",
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -66,6 +69,7 @@ class MobileHomePage extends StatelessWidget {
                       width: 120,
                       height: 60,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.blueAccent,
                         shadowColor: Colors.blue,
                         elevation: 20,
@@ -73,10 +77,12 @@ class MobileHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(23),
                         ),
                         child: InkWell(
-                          child: const Text(
-                            "Faculty",
-                            style: TextStyle(color: Colors.white, fontSize: 29),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: const Text(
+                              "Faculty",
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -93,6 +99,7 @@ class MobileHomePage extends StatelessWidget {
                       width: 120,
                       height: 60,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.blueAccent,
                         shadowColor: Colors.blue,
                         elevation: 20,
@@ -100,10 +107,12 @@ class MobileHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(23),
                         ),
                         child: InkWell(
-                          child: const Text(
-                            "Student",
-                            style: TextStyle(color: Colors.white, fontSize: 28),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: const Text(
+                              "Student",
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(

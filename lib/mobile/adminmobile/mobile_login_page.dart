@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'admin_dashboard.dart';
+import 'mobile_signup_page.dart';
 
 class MobileAdminLoginPage extends StatefulWidget {
   const MobileAdminLoginPage({super.key});
@@ -261,7 +262,7 @@ class _MobileAdminLoginPageState extends State<MobileAdminLoginPage> {
                     width: MediaQuery.of(context).size.width < 600
                         ? MediaQuery.of(context).size.width * 0.9
                         : MediaQuery.of(context).size.width * 0.5,
-                    height: 450,
+                    // height: 450,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(50)),
                     ),
@@ -383,19 +384,19 @@ class _MobileAdminLoginPageState extends State<MobileAdminLoginPage> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 60, left: 230),
+                            padding: const EdgeInsets.only(top: 30, left: 170),
                             child: InkWell(
                               onTap: resetPassword,
                               child: const Text("Forget Password",
                                   style: TextStyle(
                                       color: Colors.blue,
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       decoration: TextDecoration.underline,
                                       decorationColor: Colors.blue)),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 40),
+                          const SizedBox(
+                            height: 50,
                           ),
                           if (_isLoading)
                             const CircularProgressIndicator(), // Show loading indicator
@@ -429,8 +430,45 @@ class _MobileAdminLoginPageState extends State<MobileAdminLoginPage> {
                                     "Login",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.white),
-                                  )),
+                                  )
+                              ),
                             ),
+                          const SizedBox(
+                            height: 90,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                "I don't have a account.",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const MobileAdminSignupPage()),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Signup",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  )),
+                            ],
+                          ),
                         ],
                       ),
                     ),

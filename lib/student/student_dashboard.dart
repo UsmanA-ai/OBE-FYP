@@ -635,7 +635,7 @@ class _StudentDashBoardState extends State<StudentDashBoard> {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(child: Text('No Data loading...'));
+            return const Center(child: Text('Data loading...'));
           } else {
             var userData = snapshot.data!;
             String userName = userData['Name'];
@@ -646,10 +646,10 @@ class _StudentDashBoardState extends State<StudentDashBoard> {
                 if (courseSnapshot.hasError) {
                   return Center(child: Text('Error: ${courseSnapshot.error}'));
                 }
-                // else if (!courseSnapshot.hasData ||
-                //     courseSnapshot.data!.isEmpty) {
-                //   return const Center(child: Text('Empty loading....'));
-                // }
+                else if (!courseSnapshot.hasData ||
+                    courseSnapshot.data!.isEmpty) {
+                  return const Center(child: Text('loading...'));
+                }
                 else {
                   var courses = courseSnapshot.data!;
                   return SizedBox(

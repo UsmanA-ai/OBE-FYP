@@ -26,10 +26,10 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
       if (userCredential.user != null) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const StudentDashBoard()));
-        _showMessageDialog('Success', 'Login successful');
+        // _showMessageDialog('Success', 'Login successful');
       }
     } on FirebaseAuthException catch (e) {
-      _showMessageDialog('Error', e.code);
+      // _showMessageDialog('Error', e.code);
     } finally {
       setState(() {
         _isLoading = false;
@@ -408,42 +408,6 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                                             fontSize: 20, color: Colors.white),
                                       )),
                                 ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     const SizedBox(
-                          //       height: 10,
-                          //     ),
-                          //     const Text(
-                          //       "Already have an account?",
-                          //       style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontSize: 20,
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //     TextButton(
-                          //         onPressed: () {
-                          //           Navigator.pushReplacement(
-                          //             context,
-                          //             MaterialPageRoute(
-                          //                 builder: (context) =>
-                          //                     const StudentSignupPage()),
-                          //           );
-                          //         },
-                          //         child: const Text(
-                          //           "Login",
-                          //           style: TextStyle(
-                          //             color: Colors.blue,
-                          //             fontSize: 20,
-                          //             fontWeight: FontWeight.w400,
-                          //           ),
-                          //         )),
-                          //   ],
-                          // ),
                         ],
                       ),
                     ),

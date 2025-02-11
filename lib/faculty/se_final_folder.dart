@@ -100,7 +100,7 @@ class FacultySEFinalFolder extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.start,
                                   children: [
                                     const Padding(
                                         padding: EdgeInsets.only(left: 10),
@@ -109,23 +109,23 @@ class FacultySEFinalFolder extends StatelessWidget {
                                           style: TextStyle(
                                               color: Colors.blue, fontSize: 23),
                                         )),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const SEplos()));
-                                          },
-                                          child: const Text(
-                                            "View Program Learning Outcomes >>",
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontSize: 23),
-                                          )),
-                                    )
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(right: 10),
+                                    //   child: InkWell(
+                                    //       onTap: () {
+                                    //         Navigator.push(
+                                    //             context,
+                                    //             MaterialPageRoute(
+                                    //                 builder: (context) =>
+                                    //                     const SEplos()));
+                                    //       },
+                                    //       child: const Text(
+                                    //         "View Program Learning Outcomes >>",
+                                    //         style: TextStyle(
+                                    //             color: Colors.blue,
+                                    //             fontSize: 23),
+                                    //       )),
+                                    // )
                                   ],
                                 ),
                               ),
@@ -196,25 +196,25 @@ class _FacultyCourseDataState extends State<FacultyCourseData> {
             return _buildErrorWidget("No data found.");
           } else {
             // Show success message in an alert dialog
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Success"),
-                    content: const Text("Data fetched successfully."),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("Close"),
-                      ),
-                    ],
-                  );
-                },
-              );
-            });
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   showDialog(
+            //     context: context,
+            //     builder: (BuildContext context) {
+            //       return AlertDialog(
+            //         title: const Text("Success"),
+            //         content: const Text("Data fetched successfully."),
+            //         actions: <Widget>[
+            //           TextButton(
+            //             onPressed: () {
+            //               Navigator.of(context).pop();
+            //             },
+            //             child: const Text("Close"),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   );
+            // });
 
             // Remove duplicate courses
             List<Map<String, dynamic>> uniqueCourses = [];
@@ -236,7 +236,7 @@ class _FacultyCourseDataState extends State<FacultyCourseData> {
 
   Widget _buildErrorWidget(String message) {
     return Center(
-      child: Text('Error: $message'),
+      child: Text(message),
     );
   }
 

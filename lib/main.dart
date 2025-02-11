@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/mobile/splash_screen.dart';
 import 'package:myapp/splash_screen.dart';
 
+import 'admin/admin_dashboard.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -41,7 +43,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: kIsWeb ? const MyWebHomePage() : const MyMobileHomePage(),
+      home: kIsWeb ? const
+      MyWebHomePage()
+          : const MyMobileHomePage(),
       // home: const AdminDashBoard(),
     );
   }
