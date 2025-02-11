@@ -198,6 +198,8 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // email.text = "usman1@gmail.com";
+    // password.text = "123456";
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
