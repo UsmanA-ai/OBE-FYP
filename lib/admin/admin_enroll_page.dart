@@ -1,11 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/admin/admin_profile_page.dart';
+import 'package:myapp/utils/cloudinary_uploader.dart';
 import '../components.dart';
 
 class AdminEnrollPage extends StatefulWidget {
@@ -28,16 +29,19 @@ class _AdminEnrollPageState extends State<AdminEnrollPage> {
   final TextEditingController cpassword = TextEditingController();
   final TextEditingController paddress = TextEditingController();
   final TextEditingController taddress = TextEditingController();
-  String? tcity ;
-  String? tdistrict ;
-  String? pcity ;
-  String? pdistrict ;
+  String? tcity;
+  String? tdistrict;
+  String? pcity;
+  String? pdistrict;
   final TextEditingController bg = TextEditingController();
-  String? gender ;
+  String? gender;
   final GlobalKey<FormState> formkey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formkey3 = GlobalKey<FormState>();
   // Function to pick an image from gallery
+  Uint8List? _imageBytes;
+  File? _imageFile;
+  XFile? _pickedFile;
   Future<void> _pickProfileImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
@@ -45,24 +49,25 @@ class _AdminEnrollPageState extends State<AdminEnrollPage> {
       final imageBytes = await pickedImage.readAsBytes();
       setState(() {
         _image = imageBytes;
+        _imageBytes = imageBytes;
+        _imageFile = File(pickedImage.path);
       });
     }
   }
 
 // Function to upload image to Firebase Storage
   Future<String?> _uploadImageToFirebase() async {
-    if (_image == null) return null;
-
-    try {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('profile_images')
-          .child('image_${DateTime.now().millisecondsSinceEpoch}.jpg');
-      await ref.putData(_image!);
-      final downloadURL = await ref.getDownloadURL();
-      return downloadURL;
-    } catch (error) {
-      print('Error uploading image: $error');
+    if (_imageFile == null) return null;
+    String? imageUrl = await CloudinaryUploader.uploadImage(
+        imageBytes: _imageBytes,
+        imageFile: _imageFile,
+        fileName: _pickedFile?.name, // Optional file name
+        foldername: 'profile_pic');
+    if (imageUrl != null) {
+      print("Uploaded Image URL: $imageUrl");
+      return imageUrl;
+    } else {
+      print("Failed to upload image.");
       return null;
     }
   }
@@ -793,18 +798,32 @@ class _AdminEnrollPageState extends State<AdminEnrollPage> {
                                                           ),
                                                           Padding(
                                                               padding:
-                                                                  const EdgeInsets.only(left: 35),
-                                                              child: DropdownButton<String>(
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left: 35),
+                                                              child:
+                                                                  DropdownButton<
+                                                                      String>(
                                                                 value: gender,
-                                                                hint: const Text("Select Gender"),
-                                                                onChanged: (value) {
+                                                                hint: const Text(
+                                                                    "Select Gender"),
+                                                                onChanged:
+                                                                    (value) {
                                                                   setState(() {
-                                                                    gender = value;
+                                                                    gender =
+                                                                        value;
                                                                   });
                                                                 },
-                                                                items: _genders.map<DropdownMenuItem<String>>((String value) {
-                                                                  return DropdownMenuItem<String>(value: value,
-                                                                    child: Text(value),
+                                                                items: _genders.map<
+                                                                    DropdownMenuItem<
+                                                                        String>>((String
+                                                                    value) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value:
+                                                                        value,
+                                                                    child: Text(
+                                                                        value),
                                                                   );
                                                                 }).toList(),
                                                               ))

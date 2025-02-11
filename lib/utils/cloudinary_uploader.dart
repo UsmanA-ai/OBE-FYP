@@ -11,11 +11,11 @@ class CloudinaryUploader {
       'OBE_Media'; // Replace with your unsigned preset name
 
   /// Uploads an image to Cloudinary and returns the image URL
-  static Future<String?> uploadImage({
-    Uint8List? imageBytes,
-    File? imageFile,
-    String? fileName,
-  }) async {
+  static Future<String?> uploadImage(
+      {Uint8List? imageBytes,
+      File? imageFile,
+      String? fileName,
+      String foldername = 'default_folder'}) async {
     if ((kIsWeb && imageBytes == null) || (!kIsWeb && imageFile == null)) {
       return null; // Ensure valid input
     }
@@ -25,7 +25,8 @@ class CloudinaryUploader {
           Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/upload');
 
       var request = http.MultipartRequest('POST', url)
-        ..fields['upload_preset'] = uploadPreset;
+        ..fields['upload_preset'] = uploadPreset
+        ..fields['folder'] = foldername;
 
       if (kIsWeb) {
         // Web: Upload image as bytes

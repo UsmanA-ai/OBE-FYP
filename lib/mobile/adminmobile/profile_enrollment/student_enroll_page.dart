@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,8 +59,6 @@ class _AdminSEnrollMobilePageState extends State<AdminSEnrollMobilePage> {
       setState(() {
         _image = imageBytes;
         _imageBytes = imageBytes;
-      });
-      setState(() {
         _imageFile = File(pickedImage.path);
       });
     }
@@ -71,10 +68,10 @@ class _AdminSEnrollMobilePageState extends State<AdminSEnrollMobilePage> {
   Future<String?> _uploadImageToFirebase() async {
     if (_imageFile == null) return null;
     String? imageUrl = await CloudinaryUploader.uploadImage(
-      imageBytes: _imageBytes,
-      imageFile: _imageFile,
-      fileName: _pickedFile?.name, // Optional file name
-    );
+        imageBytes: _imageBytes,
+        imageFile: _imageFile,
+        fileName: _pickedFile?.name, // Optional file name
+        foldername: 'profile_pic');
     if (imageUrl != null) {
       print("Uploaded Image URL: $imageUrl");
       return imageUrl;
