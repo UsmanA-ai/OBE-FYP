@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/components.dart';
 import 'package:myapp/student/student_portfolio_folder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myapp/utils/cloudinary_uploader.dart';
 
 class StudentPortfolioPage extends StatefulWidget {
   const StudentPortfolioPage({super.key});
@@ -23,6 +26,7 @@ class _StudentPortfolioPageState extends State<StudentPortfolioPage> {
   String? selectedFileName;
   PlatformFile? selectedFile;
 
+  String? fileUrl = '';
   @override
   void initState() {
     super.initState();
@@ -94,15 +98,25 @@ class _StudentPortfolioPageState extends State<StudentPortfolioPage> {
 
     try {
       String fileName = selectedFile!.name;
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('portfolio_files')
-          .child(fileName);
-      UploadTask uploadTask = storageRef.putData(selectedFile!.bytes!);
-      TaskSnapshot taskSnapshot = await uploadTask;
-      String fileUrl = await taskSnapshot.ref.getDownloadURL();
-
-      User? user = FirebaseAuth.instance.currentUser;
+      if (kIsWeb) {
+        // Web: Only use bytes
+        fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: selectedFile!.bytes,
+            imageFile: null,
+            fileName: fileName, // Optional file name
+            foldername: 'raw_uploads',
+            isRaw: true);
+        print("Uploaded Image URL: $fileUrl");
+      } else {
+        // Mobile/Desktop: Use file path
+        File file = File(selectedFile!.path!);
+        fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: selectedFile!.bytes,
+            imageFile: file,
+            fileName: fileName, // Optional file name
+            foldername: 'raw_uploads');
+        print("Uploaded Image URL: $fileUrl");
+      }
       await FirebaseFirestore.instance.collection('portfolio').add({
         'studentId': studentIdController.text,
         'projectId': projectIdController.text,
