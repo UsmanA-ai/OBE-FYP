@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -24,34 +25,61 @@ class _StudentAssignmentPageState extends State<StudentAssignmentPage> {
   @override
   void initState() {
     super.initState();
-    fetchAssignmentData();
+    fetchUserData();
   }
 
+  late final userData;
+  late String userProgram;
   Future<Map<String, dynamic>> fetchUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection('students')
         .doc(user!.uid)
         .get();
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+    userData = data;
+    if (data == null || !data.containsKey('Program')) {
+      throw Exception("No 'Program' field found");
+    }
+    userProgram = data['Program'];
+    fetchAssignmentData();
     return snapshot.data() as Map<String, dynamic>;
   }
 
   Future<void> fetchAssignmentData() async {
     try {
       List<Map<String, dynamic>> loadedAssignments = [];
-
-      final List<Map<String, dynamic>> collections = [
-        {
-          'snapshot':
-              FirebaseFirestore.instance.collection('se_assignment').get(),
-          'type': 'se_assignment'
-        },
-        {
-          'snapshot':
-              FirebaseFirestore.instance.collection('cs_assignment').get(),
-          'type': 'cs_assignment'
-        },
-      ];
+      late List<Map<String, dynamic>> collections;
+      if (userProgram == 'BS(SE)') {
+        collections = [
+          {
+            'snapshot':
+                FirebaseFirestore.instance.collection('se_assignment').get(),
+            'type': 'se_assignment'
+          },
+        ];
+      }
+      if (userProgram == 'BS(CS)') {
+        collections = [
+          {
+            'snapshot':
+                FirebaseFirestore.instance.collection('cs_assignment').get(),
+            'type': 'cs_assignment'
+          },
+        ];
+      }
+      // final List<Map<String, dynamic>> collections = [
+      //   {
+      //     'snapshot':
+      //         FirebaseFirestore.instance.collection('se_assignment').get(),
+      //     'type': 'se_assignment'
+      //   },
+      //   {
+      //     'snapshot':
+      //         FirebaseFirestore.instance.collection('cs_assignment').get(),
+      //     'type': 'cs_assignment'
+      //   },
+      // ];
 
       final List<QuerySnapshot> snapshots = await Future.wait(
           collections.map((c) => c['snapshot'] as Future<QuerySnapshot>));
@@ -141,7 +169,9 @@ class _StudentAssignmentPageState extends State<StudentAssignmentPage> {
 
           if (response.statusCode == 200) {
             // Extract values from JSON
-            double assignmentMarks = jsonData['assignment_marks'];
+            // (value * 2).floor()
+            double assignmentMarks =
+                (jsonData['assignment_marks'] * 2).floor() / 2;
 
             String? fileUrl;
             if (kIsWeb) {

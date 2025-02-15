@@ -1,3 +1,8 @@
+# pip install flask flask-cors pymupdf python-docx sentence-transformers textstat scikit-learn
+# pip install flask flask-cors pymupdf python-docx sentence-transformers textstat scikit-learn --dev
+# pipenv shell
+# python3 app.py
+
 import os
 import tempfile
 import re
@@ -30,7 +35,9 @@ def upload_file():
     file = request.files['file']
     question = request.form['question']
     total_marks = float(request.form['totalMarks'])
-    
+    print(file, "--------------file")
+    print(question, "--------------question")
+    print(total_marks, "--------------total_marks")
     if file.filename == '':
         return jsonify({"error": "No file found"}), 400
     
