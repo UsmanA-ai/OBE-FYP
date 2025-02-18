@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/mobile/studentmobile/portfolio/portfolio_folder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myapp/utils/cloudinary_uploader.dart';
 
 class StudentMobilePortfolioPage extends StatefulWidget {
   const StudentMobilePortfolioPage({super.key});
@@ -64,6 +67,7 @@ class _StudentMobilePortfolioPageState
     }
   }
 
+  String? fileUrl = '';
   Future<void> submitPortfolio() async {
     if (studentIdController.text.isEmpty ||
         projectIdController.text.isEmpty ||
@@ -95,15 +99,26 @@ class _StudentMobilePortfolioPageState
 
     try {
       String fileName = selectedFile!.name;
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('portfolio_files')
-          .child(fileName);
-      UploadTask uploadTask = storageRef.putData(selectedFile!.bytes!);
-      TaskSnapshot taskSnapshot = await uploadTask;
-      String fileUrl = await taskSnapshot.ref.getDownloadURL();
+      if (kIsWeb) {
+        // Web: Only use bytes
+        fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: selectedFile!.bytes,
+            imageFile: null,
+            fileName: fileName, // Optional file name
+            foldername: 'raw_uploads',
+            isRaw: true);
+        print("Uploaded Image URL: $fileUrl");
+      } else {
+        // Mobile/Desktop: Use file path
+        File file = File(selectedFile!.path!);
+        fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: selectedFile!.bytes,
+            imageFile: file,
+            fileName: fileName, // Optional file name
+            foldername: 'raw_uploads');
+        print("Uploaded Image URL: $fileUrl");
+      }
 
-      User? user = FirebaseAuth.instance.currentUser;
       await FirebaseFirestore.instance.collection('portfolio').add({
         'studentId': studentIdController.text,
         'projectId': projectIdController.text,

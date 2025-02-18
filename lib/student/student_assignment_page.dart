@@ -1,11 +1,15 @@
+import 'dart:convert';
+import 'dart:math';
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/components.dart';
+
+import '../utils/cloudinary_uploader.dart';
 
 class StudentAssignmentPage extends StatefulWidget {
   // final String courseName; // Receive course name to filter assignments
@@ -14,52 +18,114 @@ class StudentAssignmentPage extends StatefulWidget {
   @override
   State<StudentAssignmentPage> createState() => _StudentAssignmentPageState();
 }
+
 class _StudentAssignmentPageState extends State<StudentAssignmentPage> {
   bool isLoading = true;
   List<Map<String, dynamic>> assignments = [];
   @override
   void initState() {
     super.initState();
-    fetchAssignmentData();
+    fetchUserData();
   }
 
+  late final userData;
+  late String userProgram;
   Future<Map<String, dynamic>> fetchUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection('students')
         .doc(user!.uid)
         .get();
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+    userData = data;
+    if (data == null || !data.containsKey('Program')) {
+      throw Exception("No 'Program' field found");
+    }
+    userProgram = data['Program'];
+    fetchAssignmentData();
     return snapshot.data() as Map<String, dynamic>;
   }
 
   Future<void> fetchAssignmentData() async {
-    try{
+    try {
       List<Map<String, dynamic>> loadedAssignments = [];
-
-    final List<QuerySnapshot> snapshots = await Future.wait([
-      FirebaseFirestore.instance.collection('se_assignment').get(),
-      FirebaseFirestore.instance.collection('cs_assignment').get(),
-    ]);
-
-    for (var snapshot in snapshots) {
-      for (var doc in snapshot.docs) {
-        loadedAssignments.add(doc.data() as Map<String, dynamic>);
+      late List<Map<String, dynamic>> collections;
+      if (userProgram == 'BS(SE)') {
+        collections = [
+          {
+            'snapshot':
+                FirebaseFirestore.instance.collection('se_assignment').get(),
+            'type': 'se_assignment'
+          },
+        ];
       }
-    }
+      if (userProgram == 'BS(CS)') {
+        collections = [
+          {
+            'snapshot':
+                FirebaseFirestore.instance.collection('cs_assignment').get(),
+            'type': 'cs_assignment'
+          },
+        ];
+      }
+      // final List<Map<String, dynamic>> collections = [
+      //   {
+      //     'snapshot':
+      //         FirebaseFirestore.instance.collection('se_assignment').get(),
+      //     'type': 'se_assignment'
+      //   },
+      //   {
+      //     'snapshot':
+      //         FirebaseFirestore.instance.collection('cs_assignment').get(),
+      //     'type': 'cs_assignment'
+      //   },
+      // ];
 
-    setState(() {
-      assignments = loadedAssignments;
-      isLoading = false;
-    });
+      final List<QuerySnapshot> snapshots = await Future.wait(
+          collections.map((c) => c['snapshot'] as Future<QuerySnapshot>));
+
+      for (int i = 0; i < snapshots.length; i++) {
+        for (var doc in snapshots[i].docs) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          data['collection_type'] =
+              collections[i]['type']; // Add collection type
+          data['documentId'] = doc.id; // Add document ID
+          loadedAssignments.add(data);
+        }
+      }
+
+      setState(() {
+        assignments = loadedAssignments;
+        isLoading = false;
+      });
     } catch (error) {
       print("Error fetching assignments: $error");
       setState(() {
-      isLoading = false;
-    });
+        isLoading = false;
+      });
     }
   }
 
-  Future<void> uploadFile(String assignmentId) async {
+  // create function updateAssignment
+  Future<void> updateAssignment(
+    String assignmentId,
+    double assignmentMarks,
+    String type,
+    String documentId,
+  ) async {
+    try {
+      await FirebaseFirestore.instance.collection(type).doc(documentId).update({
+        'obtainedMarks': assignmentMarks,
+        'status': 'Submitted',
+      });
+      fetchAssignmentData();
+    } catch (e) {
+      print("Error updating assignment: $e");
+    }
+  }
+
+  Future<void> uploadFile(String documentId, String type, String assignmentId,
+      String question, String totalMarks, context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -67,37 +133,99 @@ class _StudentAssignmentPageState extends State<StudentAssignmentPage> {
       );
 
       if (result != null) {
-        File file = File(result.files.single.path!);
+        var uri = Uri.parse('http://127.0.0.1:5000/upload'); // Flask server URL
         String fileName = result.files.single.name;
         String userId = FirebaseAuth.instance.currentUser!.uid;
 
-        // Upload to Firebase Storage
-        Reference storageRef = FirebaseStorage.instance
-            .ref()
-            .child('assignments/$userId/$fileName');
-        UploadTask uploadTask = storageRef.putFile(file);
+        var request = http.MultipartRequest('POST', uri)
+          ..fields['totalMarks'] = totalMarks
+          ..fields['question'] = question;
 
-        TaskSnapshot snapshot = await uploadTask;
-        String downloadURL = await snapshot.ref.getDownloadURL();
+        if (kIsWeb) {
+          // Web: Use bytes
+          request.files.add(
+            http.MultipartFile.fromBytes(
+              'file',
+              result.files.single.bytes!,
+              filename: fileName,
+            ),
+          );
+        } else {
+          // Mobile: Use file path
+          File file = File(result.files.single.path!);
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              'file',
+              file.path,
+            ),
+          );
+        }
 
-        // Save file URL to Firestore
-        await FirebaseFirestore.instance.collection('uploads').add({
-          'userId': userId,
-          'assignmentId': assignmentId,
-          'fileName': fileName,
-          'fileURL': downloadURL,
-          'timestamp': FieldValue.serverTimestamp(),
-        });
+        try {
+          var response = await request.send();
+          var responseBody =
+              await response.stream.bytesToString(); // Convert stream to string
+          var jsonData = jsonDecode(responseBody); // Parse JSON
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("File uploaded successfully!")),
-        );
+          if (response.statusCode == 200) {
+            // Extract values from JSON
+            // (value * 2).floor()
+            double assignmentMarks =
+                (jsonData['assignment_marks'] * 2).floor() / 2;
+
+            String? fileUrl;
+            if (kIsWeb) {
+              // Web: Only use bytes
+              fileUrl = await CloudinaryUploader.uploadImage(
+                  imageBytes: result.files.single.bytes!,
+                  imageFile: null,
+                  fileName: fileName, // Optional file name
+                  foldername: 'assignments',
+                  isRaw: true);
+              print("Uploaded Image URL: $fileUrl");
+            } else {
+              // Mobile/Desktop: Use file path
+              File file = File(result.files.single.path!);
+              fileUrl = await CloudinaryUploader.uploadImage(
+                  imageBytes: result.files.single.bytes!,
+                  imageFile: file,
+                  fileName: fileName, // Optional file name
+                  foldername: 'assignments');
+              print("Uploaded Image URL: $fileUrl");
+            }
+            print("Assignment Marks: $assignmentMarks");
+            await FirebaseFirestore.instance.collection('uploads').add({
+              'userId': userId,
+              'assignmentId': assignmentId,
+              'fileName': fileName,
+              'fileURL': fileUrl,
+              'timestamp': FieldValue.serverTimestamp(),
+            });
+            // here update assignment object in database
+
+            updateAssignment(assignmentId, assignmentMarks, type, documentId);
+
+            print('File uploaded successfully!');
+            // Now you can use these variables
+          } else {
+            print('Failed to upload file: ${response.statusCode}');
+          }
+        } catch (e) {
+          print('Error sending file to API: $e');
+        } finally {
+          // Close the request
+          request.fields.clear();
+          request.files.clear();
+          result.files.clear();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Assignment Submitted Successfully")),
+          );
+        }
       }
     } catch (e) {
       print("Error uploading file: $e");
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -252,53 +380,74 @@ class _StudentAssignmentPageState extends State<StudentAssignmentPage> {
                                       return DataRow(cells: [
                                         DataCell(
                                           Center(
-                                            child: Text(assignment['courseName'] ?? '--',
+                                            child: Text(
+                                                assignment['courseName'] ??
+                                                    '--',
                                                 style: const TextStyle(
                                                     color: Colors.blueAccent,
-                                                    fontWeight: FontWeight.bold)),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                           ),
                                         ),
                                         DataCell(
-                                          Center(child: Text
-                                            (assignment['assignment']?.toString() ?? '--',)
-                                          ),
+                                          Center(
+                                              child: Text(
+                                            assignment['assignment']
+                                                    ?.toString() ??
+                                                '--',
+                                          )),
                                         ),
                                         DataCell(
                                           Text(assignment['question'] ?? '--',
-                                              style: const TextStyle(color: Colors.red)),
+                                              style: const TextStyle(
+                                                  color: Colors.red)),
                                         ),
-                                        DataCell(
-                                            Center(
-                                              child: InkWell(onTap: () {
+                                        DataCell(Center(
+                                          child: InkWell(
+                                            onTap: () {
                                               // Handle file upload here
-                                              uploadFile(assignment['id']);
-                                              },
-                                                child: const Text(
+                                              uploadFile(
+                                                  assignment['documentId'],
+                                                  assignment['collection_type'],
+                                                  assignment['assignment'],
+                                                  assignment['question'],
+                                                  assignment['totalMarks']
+                                                      .toString(),
+                                                  context);
+                                            },
+                                            child: const Text(
                                               'Upload',
-                                              style: TextStyle(color: Colors.blueAccent),
-                                                ),
-                                              ),
-                                            )),
-                                        DataCell(
-                                            Center(
-                                              child: Text(assignment['status'] ?? 'Pending', style: TextStyle(
-                                                color: assignment[
-                                                'status'] == 'Missed'
+                                              style: TextStyle(
+                                                  color: Colors.blueAccent),
+                                            ),
+                                          ),
+                                        )),
+                                        DataCell(Center(
+                                          child: Text(
+                                            assignment['status'] ?? 'Pending',
+                                            style: TextStyle(
+                                                color: assignment['status'] ==
+                                                        'Missed'
                                                     ? Colors.red
-                                                    : assignment[
-                                                'status'] == 'Submitted'
-                                                    ? Colors.green
-                                                    : Colors.black),
-                                                                                      ),
-                                            )),
+                                                    : assignment['status'] ==
+                                                            'Submitted'
+                                                        ? Colors.green
+                                                        : Colors.black),
+                                          ),
+                                        )),
                                         DataCell(
-                                          Center(child: Text(assignment['totalMarks']?.toString() ?? '--')),
-                                        ),
-                                        DataCell(
-                                            Center(
+                                          Center(
                                               child: Text(
-                                              assignment['obtainedMarks']?.toString() ?? '--'),
-                                            )),
+                                                  assignment['totalMarks']
+                                                          ?.toString() ??
+                                                      '--')),
+                                        ),
+                                        DataCell(Center(
+                                          child: Text(
+                                              assignment['obtainedMarks']
+                                                      ?.toString() ??
+                                                  '--'),
+                                        )),
                                       ]);
                                     }).toList(),
                                     // rows: [
@@ -476,8 +625,7 @@ class _StudentAssignmentPageState extends State<StudentAssignmentPage> {
                     ),
                   ],
                 ),
-              )
-              ),
+              )),
         ],
       ),
     ));

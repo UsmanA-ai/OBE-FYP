@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:myapp/utils/cloudinary_uploader.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import '../components.dart';
 
@@ -52,17 +54,18 @@ class _UploadfolderState extends State<Uploadfolder> {
     }
   }
 
+  late FilePickerResult result;
   Future<void> _pickFile() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      FilePickerResult? resultTemp = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx'],
       );
-
-      if (result != null && result.files.single.bytes != null) {
+      if (resultTemp != null && resultTemp.files.single.bytes != null) {
         setState(() {
-          _selectedFileBytes = result.files.single.bytes;
-          _fileName = result.files.single.name;
+          result = resultTemp;
+          _selectedFileBytes = resultTemp.files.single.bytes;
+          _fileName = resultTemp.files.single.name;
           _uploadDate = DateTime.now().toString();
         });
       } else {}
@@ -77,22 +80,25 @@ class _UploadfolderState extends State<Uploadfolder> {
     });
 
     try {
-      final storageRef =
-          FirebaseStorage.instance.ref().child('uploads/${_fileName!}');
-      final uploadTask = storageRef.putData(_selectedFileBytes!);
-
-      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        print('Task state: ${snapshot.state}');
-        print(
-            'Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
-      }, onError: (e) {
-        setState(() {
-          _isUploading = false;
-        });
-      });
-
-      final taskSnapshot = await uploadTask;
-      _fileUrl = await taskSnapshot.ref.getDownloadURL();
+      if (kIsWeb) {
+        // Web: Only use bytes
+        _fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: _selectedFileBytes!,
+            imageFile: null,
+            fileName: _fileName, // Optional file name
+            foldername: 'raw_uploads',
+            isRaw: true);
+        print("Uploaded Image URL: $_fileUrl");
+      } else {
+        // Mobile/Desktop: Use file path
+        File file = File(result.files.single.path!);
+        _fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: result.files.single.bytes!,
+            imageFile: file,
+            fileName: _fileName, // Optional file name
+            foldername: 'raw_uploads');
+        print("Uploaded Image URL: $_fileUrl");
+      }
 
       await FirebaseFirestore.instance.collection('files').add({
         'CourseName': widget.courseName,

@@ -5,27 +5,28 @@ import 'package:flutter/foundation.dart'; // For kIsWeb
 import 'package:http/http.dart' as http;
 
 class CloudinaryUploader {
-  static const String cloudName =
-      'dzen22zz1'; // Replace with your Cloudinary cloud name
-  static const String uploadPreset =
-      'OBE_Media'; // Replace with your unsigned preset name
-
   /// Uploads an image to Cloudinary and returns the image URL
   static Future<String?> uploadImage(
       {Uint8List? imageBytes,
       File? imageFile,
       String? fileName,
-      String foldername = 'default_folder'}) async {
+      String foldername = 'default_folder',
+      bool isRaw = false}) async {
     if ((kIsWeb && imageBytes == null) || (!kIsWeb && imageFile == null)) {
       return null; // Ensure valid input
     }
 
     try {
-      final url =
-          Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/upload');
+      Uri? url;
+      if (isRaw) {
+        url = Uri.parse('https://api.cloudinary.com/v1_1/dzen22zz1/raw/upload');
+      } else {
+        url =
+            Uri.parse('https://api.cloudinary.com/v1_1/dzen22zz1/image/upload');
+      }
 
       var request = http.MultipartRequest('POST', url)
-        ..fields['upload_preset'] = uploadPreset
+        ..fields['upload_preset'] = 'OBE_Media'
         ..fields['folder'] = foldername;
 
       if (kIsWeb) {

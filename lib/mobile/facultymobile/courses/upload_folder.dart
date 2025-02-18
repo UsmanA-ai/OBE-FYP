@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:myapp/utils/cloudinary_uploader.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
+
 class UploadMobilefolder extends StatefulWidget {
   final String courseName;
 
@@ -50,17 +53,19 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
     }
   }
 
+  late FilePickerResult result;
   Future<void> _pickFile() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      FilePickerResult? resultTemp = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx'],
       );
 
-      if (result != null && result.files.single.bytes != null) {
+      if (resultTemp != null && resultTemp.files.single.bytes != null) {
         setState(() {
-          _selectedFileBytes = result.files.single.bytes;
-          _fileName = result.files.single.name;
+          result = resultTemp;
+          _selectedFileBytes = resultTemp.files.single.bytes;
+          _fileName = resultTemp.files.single.name;
           _uploadDate = DateTime.now().toString();
         });
       } else {}
@@ -75,23 +80,25 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
     });
 
     try {
-      final storageRef =
-      FirebaseStorage.instance.ref().child('uploads/${_fileName!}');
-      final uploadTask = storageRef.putData(_selectedFileBytes!);
-
-      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        print('Task state: ${snapshot.state}');
-        print(
-            'Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
-      }, onError: (e) {
-        setState(() {
-          _isUploading = false;
-        });
-      });
-
-      final taskSnapshot = await uploadTask;
-      _fileUrl = await taskSnapshot.ref.getDownloadURL();
-
+      if (kIsWeb) {
+        // Web: Only use bytes
+        _fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: _selectedFileBytes!,
+            imageFile: null,
+            fileName: _fileName, // Optional file name
+            foldername: 'raw_uploads',
+            isRaw: true);
+        print("Uploaded Image URL: $_fileUrl");
+      } else {
+        // Mobile/Desktop: Use file path
+        File file = File(result.files.single.path!);
+        _fileUrl = await CloudinaryUploader.uploadImage(
+            imageBytes: result.files.single.bytes!,
+            imageFile: file,
+            fileName: _fileName, // Optional file name
+            foldername: 'raw_uploads');
+        print("Uploaded Image URL: $_fileUrl");
+      }
       await FirebaseFirestore.instance.collection('files').add({
         'CourseName': widget.courseName,
         'filesurl': _fileUrl,
@@ -217,7 +224,8 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
               Navigator.of(context).pop();
             },
           ),
-          title: const Text("Course Upload Files", style: TextStyle(color: Colors.white)),
+          title: const Text("Course Upload Files",
+              style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.blue.shade900,
           centerTitle: true,
         ),
@@ -227,14 +235,14 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
           color: Colors.lightBlue.shade50,
           child: Column(
             children: [
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.start,
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(width: 10),
                     const Text(
@@ -246,8 +254,7 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
                       ),
                     ),
                     Text(
-                      widget
-                          .courseName, // Display provided course name
+                      widget.courseName, // Display provided course name
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.blue,
@@ -259,12 +266,10 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
                       width: 150,
                       height: 35,
                       decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blueGrey
-                                .withOpacity(0.5),
+                            color: Colors.blueGrey.withOpacity(0.5),
                             spreadRadius: 3,
                             blurRadius: 5,
                             offset: const Offset(0, 2),
@@ -289,26 +294,21 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
                     if (_fileName != null)
                       Column(
                         children: [
-                          Text(
-                              'Selected File: $_fileName'),
+                          Text('Selected File: $_fileName'),
                           Text('Date: $_uploadDate'),
                         ],
                       ),
                     const SizedBox(width: 20),
-                    if (_isUploading)
-                      const CircularProgressIndicator(),
-                    if (!_isUploading)
-                      const SizedBox(width: 20),
+                    if (_isUploading) const CircularProgressIndicator(),
+                    if (!_isUploading) const SizedBox(width: 20),
                     Container(
                       width: 150,
                       height: 35,
                       decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blueGrey
-                                .withOpacity(0.5),
+                            color: Colors.blueGrey.withOpacity(0.5),
                             spreadRadius: 3,
                             blurRadius: 5,
                             offset: const Offset(0, 2),
@@ -340,15 +340,16 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
                 height: 583,
                 decoration: BoxDecoration(
                   color: Colors.lightBlueAccent.shade100,
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(23),topRight: Radius.circular(23)),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(23),
+                      topRight: Radius.circular(23)),
                 ),
                 child: Stack(
                   children: [
                     Visibility(
                       visible: _isLoading,
                       child: const Center(
-                        child:
-                        CircularProgressIndicator(),
+                        child: CircularProgressIndicator(),
                       ),
                     ),
                     Visibility(
@@ -359,11 +360,8 @@ class _UploadMobilefolderState extends State<UploadMobilefolder> {
                           final file = _files[index];
                           return ListTile(
                             title: Text(file['fileName']),
-                            subtitle:
-                            Text(file['uploadDate']),
-                            trailing:
-                            _buildPopupMenuButton(
-                                file),
+                            subtitle: Text(file['uploadDate']),
+                            trailing: _buildPopupMenuButton(file),
                           );
                         },
                       ),
